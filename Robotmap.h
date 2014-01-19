@@ -55,6 +55,18 @@ enum Attack3JoystickPort
 	kAttackJoystickButton12 = 12,
 };
 
+enum DigitalIOPort {
+    kFrontLeftJaguar = 1,
+    kFrontRightJaguar = 2,
+    kBackLeftJaguar = 3,
+    kBackRightJaguar = 4,
+};
+
+enum JoystickPort {
+    kDriverStickPort = 1,
+    kManipulatorStickPort = 2,
+};
+
 static const float kDeadbandLimit = 0.3;
 
 #endif

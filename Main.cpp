@@ -1,21 +1,20 @@
 #include "WPILib.h"
 #include "Commands/Command.h"
-#include "Commands/ExampleCommand.h"
 #include "CommandBase.h"
 
 class Main : public IterativeRobot {
 private:
-	Command *autonomousCommand;
+	//Command *autonomousCommand;
 	LiveWindow *lw;
 	
 	virtual void RobotInit() {
 		CommandBase::init();
-		autonomousCommand = new ExampleCommand();
+		//autonomousCommand = new ExampleCommand();
 		lw = LiveWindow::GetInstance();
 	}
 	
 	virtual void AutonomousInit() {
-		autonomousCommand->Start();
+		//autonomousCommand->Start();
 	}
 	
 	virtual void AutonomousPeriodic() {
@@ -27,7 +26,7 @@ private:
 		// teleop starts running. If you want the autonomous to 
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		autonomousCommand->Cancel();
+		//autonomousCommand->Cancel();
 	}
 	
 	virtual void TeleopPeriodic() {
