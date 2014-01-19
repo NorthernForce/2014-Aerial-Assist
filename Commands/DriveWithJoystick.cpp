@@ -1,32 +1,32 @@
 #include "DriveWithJoystick.h"
 
 DriveWithJoystick::DriveWithJoystick() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(chassis);
     Requires(s_drive);
 }
 
-// Called just before this Command runs the first time
 void DriveWithJoystick::Initialize() {
-	
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
-	
+    // X velocity
+    float x = oi->GetDriverStick().GetLeftStickX();
+    // Y velocity
+    float y = oi->GetDriverStick().GetLeftStickY();
+    // Angular velocity
+    float w = oi->GetDriverStick().GetRightStickX();
+
+    // Send command to drive subsystem
+	s_drive->DriveMecanum(x, y, w);
 }
 
-// Make this return true when this Command no longer needs to run execute()
+// This is a default command which should never stop, except when kicked off by another command.
 bool DriveWithJoystick::IsFinished() {
 	return false;
 }
 
-// Called once after isFinished returns true
 void DriveWithJoystick::End() {
-	
 }
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
 void DriveWithJoystick::Interrupted() {
 }
