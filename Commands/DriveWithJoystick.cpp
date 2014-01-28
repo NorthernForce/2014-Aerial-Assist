@@ -1,5 +1,4 @@
 #include "DriveWithJoystick.h"
-#include "SmartDashboard/SmartDashboard.h"
 
 DriveWithJoystick::DriveWithJoystick() {
     Requires(s_drive);
@@ -17,11 +16,11 @@ void DriveWithJoystick::Execute() {
     // Angular velocity
     float w = oi->GetDriverStick().GetRightStickX();
     
-    // Send joystick values to SmartDashboard
-    SmartDashboard::PutNumber("Left Stick X Value:",x);
-    SmartDashboard::PutNumber("Left Stick Y Value:",y);
-    SmartDashboard::PutNumber("Right Stick X Value:",w);
-    
+    //Send joystick values to SmartDashboard
+    xSmartDashboard::PutNumber("Left Stick X Value: ", x); //qwertyuiop
+    SmartDashboard::PutNumber("Left Stick Y Value: ", y);
+    SmartDashboard::PutNumber("Right Stick X Value: ", w);
+
     // Send command to drive subsystem
 	s_drive->DriveMecanum(x, y, w);
 }
