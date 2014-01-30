@@ -17,9 +17,11 @@ void DriveWithJoystick::Execute() {
     float w = oi->GetDriverStick().GetRightStickX();
     
     //Send joystick values to SmartDashboard
-    xSmartDashboard::PutNumber("Left Stick X Value: ", x); //qwertyuiop
+    SmartDashboard::PutNumber("Left Stick X Value: ", x); 
     SmartDashboard::PutNumber("Left Stick Y Value: ", y);
     SmartDashboard::PutNumber("Right Stick X Value: ", w);
+    
+    //printf("Drive the joystick");
 
     // Send command to drive subsystem
 	s_drive->DriveMecanum(x, y, w);
