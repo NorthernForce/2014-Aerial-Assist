@@ -1,14 +1,13 @@
-#ifndef DRIVEWITHJOYSTICK_H
-#define DRIVEWITHJOYSTICK_H
+#pragma once
 
-#include "../CommandBase.h"
+#include "Commands/Command.h"
 
 /**
  *
  *
  * @author ExampleAuthor
  */
-class DriveWithJoystick: public CommandBase {
+class DriveWithJoystick: public Command {
 public:
 	DriveWithJoystick();
 	virtual void Initialize();
@@ -17,5 +16,3 @@ public:
 	virtual void End();
 	virtual void Interrupted();
 };
-
-#endif

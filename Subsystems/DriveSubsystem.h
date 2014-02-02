@@ -1,29 +1,19 @@
-#ifndef DRIVE_SUBSYSTEM_H
-#define DRIVE_SUBSYSTEM_H
-#include "Commands/Subsystem.h"
+#pragma once
+//#include "Commands/Subsystem.h"
 #include "WPILib.h"
-#include <memory>
+#include "SubsystemWithCommand.hpp"
+#include "../Commands/DriveWithJoystick.h"
 
-	// Forward decl for using auto_ptr below
-	class DriveWithJoystick;
-
-class DriveSubsystem: public Subsystem 
+class DriveSubsystem: public SubsystemWithCommand<DriveWithJoystick>
 {
-	private:
-		typedef std::auto_ptr<DriveWithJoystick> SmartJoyStickPtr;
-			
-	public:
-		DriveSubsystem();
-		void InitDefaultCommand();
-		void DriveMecanum(float xVel, float yVel, float rotVel);
+public:
+	DriveSubsystem();
+	void DriveMecanum(float xVel, float yVel, float rotVel);
 		
-	private:
-		Jaguar m_frontLeft;
-		Jaguar m_frontRight;
-		Jaguar m_backLeft;
-		Jaguar m_backRight;
-		RobotDrive m_drive;
-		SmartJoyStickPtr m_joyStick;		
+private:
+	CANJaguar m_frontLeft;
+	CANJaguar m_frontRight;
+	CANJaguar m_backLeft;
+	CANJaguar m_backRight;
+	RobotDrive m_drive;
 };
-
-#endif

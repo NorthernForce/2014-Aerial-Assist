@@ -1,5 +1,4 @@
-#ifndef ATTACK3JOYSTICK_H
-#define ATTACK3JOYSTICK_H
+#pragma once
 
 #include <WPILib.h>
 #include "../Robotmap.h"
@@ -56,5 +55,3 @@ public:
 	JoystickButton Button11;
 	JoystickButton Button12;
 };
-
-#endif

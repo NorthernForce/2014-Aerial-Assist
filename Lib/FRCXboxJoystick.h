@@ -1,5 +1,4 @@
-#ifndef FRCXBOXJOYSTICK_H
-#define FRCXBOXJOYSTICK_H
+#pragma once
 #include <WPILib.h>
 #include "../Robotmap.h"
 #include "Joystick.h"
@@ -50,4 +49,3 @@ public:
     JoystickButton LeftBumper;
     JoystickButton RightBumper;
 };
-#endif

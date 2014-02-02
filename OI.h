@@ -1,5 +1,4 @@
-#ifndef OI_H
-#define OI_H
+#pragma once
 
 #include "WPILib.h"
 #include "Lib/FRCXboxJoystick.h"
@@ -9,7 +8,6 @@ private:
     FRCXboxJoystick m_DriverStick;
 public:
 	OI();
+	void init();
     FRCXboxJoystick& GetDriverStick();
 };
-
-#endif

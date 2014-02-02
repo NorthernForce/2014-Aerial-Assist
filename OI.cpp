@@ -1,6 +1,9 @@
 #include "OI.h"
 
 OI::OI() : m_DriverStick(kDriverStickPort) {
+}
+
+void OI::init() {
 	// Process operator interface input here.
 }
 

@@ -1,42 +1,44 @@
-#include "WPILib.h"
-#include "Commands/Command.h"
-#include "CommandBase.h"
+#include "Main.h"
 
-class Main : public IterativeRobot {
-private:
-	//Command *autonomousCommand;
-	LiveWindow *lw;
+Main& Main::getRobot() {
+	return static_cast<Main&>(RobotBase::getInstance());
+}
+
+PneumaticSubsystem& Main::getPneumatics() {
+	return getRobot().s_pneumatics;
+}
+
+DriveSubsystem& Main::getDrive() {
+	return getRobot().s_drive;
+}
+
+OI& Main::getOI() {
+	return getRobot().oi;
+}
+
+void Main::RobotInit() {
+	//Subsys::init();
+	oi.init();
+	lw = LiveWindow::GetInstance();
+}
 	
-	virtual void RobotInit() {
-		CommandBase::init();
-		//autonomousCommand = new ExampleCommand();
-		lw = LiveWindow::GetInstance();
-	}
+void Main::AutonomousInit() {
+}
 	
-	virtual void AutonomousInit() {
-		//autonomousCommand->Start();
-	}
+void Main::AutonomousPeriodic() {
+	Scheduler::GetInstance()->Run();
+}
 	
-	virtual void AutonomousPeriodic() {
-		Scheduler::GetInstance()->Run();
-	}
+void Main::TeleopInit() {
+}
+
+void Main::TeleopPeriodic() {
+	Scheduler::GetInstance()->Run();
+}
 	
-	virtual void TeleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to 
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
-		//autonomousCommand->Cancel();
-	}
-	
-	virtual void TeleopPeriodic() {
-		Scheduler::GetInstance()->Run();
-	}
-	
-	virtual void TestPeriodic() {
-		lw->Run();
-	}
-};
+void Main::TestPeriodic() {
+	lw->Run();
+}
 
 START_ROBOT_CLASS(Main);
 

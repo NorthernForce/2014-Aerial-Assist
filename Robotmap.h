@@ -1,6 +1,4 @@
-#ifndef ROBOTMAP_H
-#define ROBOTMAP_H
-
+#pragma once
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -55,11 +53,11 @@ enum Attack3JoystickPort
 	kAttackJoystickButton12 = 12,
 };
 
-enum DigitalIOPort {
-    kFrontLeftJaguar = 1,
+enum JagCANAdress {
+    kBackRightJaguar = 1,
     kFrontRightJaguar = 2,
     kBackLeftJaguar = 3,
-    kBackRightJaguar = 4,
+    kFrontLeftJaguar = 4,
 };
 
 enum JoystickPort {
@@ -67,6 +65,14 @@ enum JoystickPort {
     kManipulatorStickPort = 2,
 };
 
-static const float kDeadbandLimit = 0.3;
+enum RelayPort {
+	kCompressorRelay = 1,
+	kShooterRelay = 2,
+};
 
-#endif
+enum SolenoidPort {
+	kPickupSolenoid1 = 1,
+	kPickupSolenoid2 = 2,
+};
+
+static const float kDeadbandLimit = 0.3;

@@ -1,7 +1,9 @@
 #include "DriveWithJoystick.h"
+#include "../Main.h"
+#include <cmath>
 
 DriveWithJoystick::DriveWithJoystick() {
-    Requires(s_drive);
+    Requires(&Main::getDrive());
 }
 
 void DriveWithJoystick::Initialize() {
@@ -10,21 +12,22 @@ void DriveWithJoystick::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoystick::Execute() {
     // X velocity
-    float x = oi->GetDriverStick().GetLeftStickX();
+    float x = Main::getOI().GetDriverStick().GetLeftStickX();
+    x *= fabs(x);
     // Y velocity
-    float y = oi->GetDriverStick().GetLeftStickY();
+    float y = Main::getOI().GetDriverStick().GetLeftStickY();
+    y *= fabs(y);
     // Angular velocity
-    float w = oi->GetDriverStick().GetRightStickX();
+    float w = Main::getOI().GetDriverStick().GetRightStickX();
+    w *= fabs(w);
     
     //Send joystick values to SmartDashboard
     SmartDashboard::PutNumber("Left Stick X Value: ", x); 
     SmartDashboard::PutNumber("Left Stick Y Value: ", y);
     SmartDashboard::PutNumber("Right Stick X Value: ", w);
     
-    //printf("Drive the joystick");
-
     // Send command to drive subsystem
-	s_drive->DriveMecanum(x, y, w);
+	Main::getDrive().DriveMecanum(x, y, w);
 }
 
 // This is a default command which should never stop, except when kicked off by another command.
@@ -33,7 +36,9 @@ bool DriveWithJoystick::IsFinished() {
 }
 
 void DriveWithJoystick::End() {
+    printf("DriveWithJoystick Ended");
 }
 
 void DriveWithJoystick::Interrupted() {
+    printf("DriveWithJoystick Interrupted");
 }
