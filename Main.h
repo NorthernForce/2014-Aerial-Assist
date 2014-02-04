@@ -1,3 +1,4 @@
+#pragma once
 #include "WPILib.h"
 #include "Commands/Command.h"
 #include "Subsystems/PneumaticSubsystem.h"

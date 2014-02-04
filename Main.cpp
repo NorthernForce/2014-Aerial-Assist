@@ -17,8 +17,8 @@ OI& Main::getOI() {
 }
 
 void Main::RobotInit() {
-	//Subsys::init();
 	oi.init();
+	s_drive.init();
 	lw = LiveWindow::GetInstance();
 }
 	

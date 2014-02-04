@@ -42,16 +42,16 @@ public:
 	bool GetButton11();
 	bool GetButton12();
 
-	JoystickButton Trigger;
-	JoystickButton Button2;
-	JoystickButton Button3;
-	JoystickButton Button4;
-	JoystickButton Button5;
-	JoystickButton Button6;
-	JoystickButton Button7;
-	JoystickButton Button8;
-	JoystickButton Button9;
-	JoystickButton Button10;
-	JoystickButton Button11;
-	JoystickButton Button12;
+	SafeButton Trigger;
+	SafeButton Button2;
+	SafeButton Button3;
+	SafeButton Button4;
+	SafeButton Button5;
+	SafeButton Button6;
+	SafeButton Button7;
+	SafeButton Button8;
+	SafeButton Button9;
+	SafeButton Button10;
+	SafeButton Button11;
+	SafeButton Button12;
 };

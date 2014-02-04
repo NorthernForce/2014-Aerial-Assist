@@ -6,7 +6,7 @@ OI::OI() : m_DriverStick(kDriverStickPort) {
 
 void OI::init() {
 	// Process operator interface input here.
-    m_DriverStick.A.WhenPressed(new Shoot);
+    m_DriverStick.A.WhenPressed<Shoot>();
 }
 
 FRCXboxJoystick& OI::GetDriverStick() {

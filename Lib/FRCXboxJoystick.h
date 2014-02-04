@@ -2,6 +2,7 @@
 #include <WPILib.h>
 #include "../Robotmap.h"
 #include "Joystick.h"
+#include "SafeButton.h"
 /*
  * @brief This class is the driver for the XBox Joystick
  * that we use at competition to control the robot.
@@ -40,12 +41,12 @@ public:
 	bool GetLeftBumper();
 	bool GetRightBumper();
 	
-    JoystickButton A;
-    JoystickButton B;
-    JoystickButton X;
-    JoystickButton Y;
-    JoystickButton Back;
-    JoystickButton Start;
-    JoystickButton LeftBumper;
-    JoystickButton RightBumper;
+    SafeButton A;
+    SafeButton B;
+    SafeButton X;
+    SafeButton Y;
+    SafeButton Back;
+    SafeButton Start;
+    SafeButton LeftBumper;
+    SafeButton RightBumper;
 };

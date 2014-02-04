@@ -9,6 +9,7 @@ class DriveSubsystem: public SubsystemWithCommand<DriveWithJoystick>
 public:
 	DriveSubsystem();
 	void DriveMecanum(float xVel, float yVel, float rotVel);
+	void init();
 		
 private:
 	CANJaguar m_frontLeft;
