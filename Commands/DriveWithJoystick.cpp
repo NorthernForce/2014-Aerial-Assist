@@ -13,13 +13,13 @@ void DriveWithJoystick::Initialize() {
 void DriveWithJoystick::Execute() {
     // X velocity
     float x = Main::getOI().GetDriverStick().GetLeftStickX();
-    x *= fabs(x);
+    //x *= fabs(x);
     // Y velocity
     float y = Main::getOI().GetDriverStick().GetLeftStickY();
-    y *= fabs(y);
+    //y *= fabs(y);
     // Angular velocity
     float w = Main::getOI().GetDriverStick().GetRightStickX();
-    w *= fabs(w);
+    //w *= fabs(w);
     
     //Send joystick values to SmartDashboard
     SmartDashboard::PutNumber("Left Stick X Value: ", x); 

@@ -75,4 +75,6 @@ enum SolenoidPort {
 	kPickupSolenoid2 = 2,
 };
 
-static const float kDeadbandLimit = 0.3;
+static const float kMaxDriveVoltage = 12.0;
+static const float kMaxDriveRPM = 360.0;
+static const int kEncoderPulsesPerRev = 256;
