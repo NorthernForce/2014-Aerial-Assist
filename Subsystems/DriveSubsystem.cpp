@@ -1,19 +1,27 @@
 #include "DriveSubsystem.h"
+#include <cmath>
 #include "../Commands/DriveWithJoystick.h"
 #include "../Robotmap.h"
 
-DriveSubsystem::DriveSubsystem(): 
+DriveSubsystem::DriveSubsystem() try : 
 	SubsystemWithCommand<DriveWithJoystick>("DriveSubsystem"), 
 	P(0.50),
 	I(0.02),
 	D(0.00),
 	n(0),
+	m_majorAxisMode(false),
+	frontLeft_alive(true),
+	frontRight_alive(true),
+	backLeft_alive(true),
+	backRight_alive(true),
     m_frontLeft(kFrontLeftJaguar), 
     m_frontRight(kFrontRightJaguar), 
     m_backLeft(kBackLeftJaguar), 
     m_backRight(kBackRightJaguar),
     m_drive(m_frontLeft, m_backLeft, m_frontRight, m_backRight)
-{}
+{} catch (...) {
+	std::cout << "Exception caught in DriveSubsystem::DriveSubsystem\n"; //<< e.what() << std::endl;
+}
 
 void DriveSubsystem::init() 
 {
@@ -125,9 +133,17 @@ void DriveSubsystem::DisableEncoders()
 	m_frontRight.ChangeControlMode(CANJaguar::kPercentVbus);
 	m_backRight.ChangeControlMode(CANJaguar::kPercentVbus);
 }
+
+void DriveSubsystem::SetMajorAxisMode(bool on) {
+	m_majorAxisMode = on;
+}
     
 void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel) 
 {
+	if(m_majorAxisMode) {
+		if(fabs(xVel) > fabs(yVel)) yVel = 0.0f;
+		else xVel = 0.0f;
+	}
 	// Drive Mecanum
 	m_drive.MecanumDrive_Cartesian(xVel, yVel, rotVel);
 	// Update smart dashboard with command, output voltage, 
@@ -136,24 +152,49 @@ void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel)
 	n++;
 	if(n%10 == 0) 
 	{
+		if(m_frontLeft.IsAlive() || m_frontLeft.GetPowerCycled()) {
+			frontLeft_alive = 10;
+		}
+		
+		if(m_frontRight.IsAlive() || m_frontRight.GetPowerCycled()) {
+			frontRight_alive = 10;
+		}
+		
+		if(m_backLeft.IsAlive() || m_backLeft.GetPowerCycled()) {
+			backLeft_alive = 10;
+		}
+		
+		if(m_backRight.IsAlive() || m_backRight.GetPowerCycled()) {
+			backRight_alive = 10;
+		}
+		
+		if(frontLeft_alive > 0) --frontLeft_alive;
+		if(frontRight_alive > 0) --frontRight_alive;
+		if(backLeft_alive > 0) --backLeft_alive;
+		if(backRight_alive > 0) --backRight_alive;
+		
 		SmartDashboard::PutNumber("M4 Command", m_frontLeft.Get());
 		SmartDashboard::PutNumber("M4 Output",  m_frontLeft.GetSpeed());
 		SmartDashboard::PutNumber("M4 Voltage", m_frontLeft.GetOutputVoltage());
 		SmartDashboard::PutNumber("M4 VBus", m_frontLeft.GetBusVoltage());
+		SmartDashboard::PutBoolean("M4 Alive",  frontLeft_alive == 0);
 	
 		SmartDashboard::PutNumber("M2 Command", m_frontRight.Get());
 		SmartDashboard::PutNumber("M2 Output",  m_frontRight.GetSpeed());
 		SmartDashboard::PutNumber("M2 Voltage", m_frontRight.GetOutputVoltage());
 		SmartDashboard::PutNumber("M2 VBus", m_frontRight.GetBusVoltage());
+		SmartDashboard::PutBoolean("M2 Alive",  frontRight_alive == 0);
 		
 		SmartDashboard::PutNumber("M3 Command", m_backLeft.Get());
 		SmartDashboard::PutNumber("M3 Output",  m_backLeft.GetSpeed());
 		SmartDashboard::PutNumber("M3 Voltage", m_backLeft.GetOutputVoltage());
 		SmartDashboard::PutNumber("M3 VBus", m_backLeft.GetBusVoltage());	
+		SmartDashboard::PutBoolean("M3 Alive",  backLeft_alive == 0);
 		
 		SmartDashboard::PutNumber("M1 Command", m_backRight.Get());
 		SmartDashboard::PutNumber("M1 Output",  m_backRight.GetSpeed());
 		SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
 		SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
+		SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
 	}		
 }

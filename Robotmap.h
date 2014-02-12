@@ -54,10 +54,16 @@ enum Attack3JoystickPort
 };
 
 enum JagCANAdress {
-    kBackRightJaguar = 1,
-    kFrontRightJaguar = 2,
-    kBackLeftJaguar = 3,
-    kFrontLeftJaguar = 4,
+//    kBackRightJaguar = 1,
+//    kFrontRightJaguar = 2,
+//    kBackLeftJaguar = 3,
+//    kFrontLeftJaguar = 4,
+	kBackRightJaguar = 14,
+	//kBackRightJaguar = 15,
+	kFrontRightJaguar = 12,
+	kBackLeftJaguar = 13,
+	kFrontLeftJaguar = 11,
+	//kFrontLeftJaguar = 16,
 };
 
 enum JoystickPort {
@@ -68,6 +74,11 @@ enum JoystickPort {
 enum RelayPort {
 	kCompressorRelay = 1,
 	kShooterRelay = 2,
+	kPickupRelay = 3,
+};
+
+enum DigitalIOPort {
+	kCompressorSwitch = 1,
 };
 
 enum SolenoidPort {
