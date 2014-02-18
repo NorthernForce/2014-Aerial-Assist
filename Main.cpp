@@ -12,6 +12,10 @@ DriveSubsystem& Main::getDrive() {
 	return getRobot().s_drive;
 }
 
+PickupSubsystem& Main::getPickup() {
+	return getRobot().s_pickup;
+}
+
 OI& Main::getOI() {
 	return getRobot().oi;
 }
@@ -19,6 +23,7 @@ OI& Main::getOI() {
 void Main::RobotInit() {
 	oi.init();
 	s_drive.init();
+	s_pickup.init();
 	lw = LiveWindow::GetInstance();
 }
 	

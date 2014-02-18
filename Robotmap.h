@@ -59,11 +59,10 @@ enum JagCANAdress {
 //    kBackLeftJaguar = 3,
 //    kFrontLeftJaguar = 4,
 	kBackRightJaguar = 14,
-	//kBackRightJaguar = 15,
 	kFrontRightJaguar = 12,
 	kBackLeftJaguar = 13,
 	kFrontLeftJaguar = 11,
-	//kFrontLeftJaguar = 16,
+	kPickupJaguar = 15,
 };
 
 enum JoystickPort {
@@ -72,20 +71,24 @@ enum JoystickPort {
 };
 
 enum RelayPort {
+	kCompressorModule = 2,
 	kCompressorRelay = 1,
-	kShooterRelay = 2,
-	kPickupRelay = 3,
+	kShooterModule = 2,
+	kShooterRelay = 3,
+	kPickupModule = 2,
+	kPickupRelay = 2,
 };
 
 enum DigitalIOPort {
+	kCompressorSwitchModule = 2,
 	kCompressorSwitch = 1,
 };
 
 enum SolenoidPort {
-	kPickupSolenoid1 = 1,
-	kPickupSolenoid2 = 2,
+	kPickupSolenoid = 1,
 };
 
+static const float kDeadbandLimit = 0.01;
 static const float kMaxDriveVoltage = 12.0;
 static const float kMaxDriveRPM = 360.0;
 static const int kEncoderPulsesPerRev = 256;

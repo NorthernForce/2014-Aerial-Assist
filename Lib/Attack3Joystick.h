@@ -2,6 +2,7 @@
 
 #include <WPILib.h>
 #include "../Robotmap.h"
+#include "SafeButton.h"
 #include "Joystick.h"
 
 /**

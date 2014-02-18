@@ -15,17 +15,22 @@ class SetDriveMode: public Command {
 public:
 	SetDriveMode() {}
 	virtual void Initialize() {
+		printf("Setting drive mode");
 		switch(mode) {
 		case MAJOR_AXIS_ONLY:
+			printf(" Major axis\n");
 			Main::getDrive().SetMajorAxisMode(true);
 			break;
 		case BOTH_AXES:
+			printf(" Both axes\n");
 			Main::getDrive().SetMajorAxisMode(false);
 			break;
 		case ENCODERS_ON:
+			printf(" Encoders on\n");
 			Main::getDrive().EnableEncoders(true);
 			break;
 		case ENCODERS_OFF:
+			printf(" Encoders off\n");
 			Main::getDrive().DisableEncoders();
 			break;
 		}

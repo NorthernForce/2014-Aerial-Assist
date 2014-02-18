@@ -13,6 +13,5 @@ public:
 private:
     Compressor m_Compressor;
     Relay m_ShooterCyls;
-    Relay m_PickupCyls;
 };
 

@@ -20,11 +20,13 @@ DriveSubsystem::DriveSubsystem() try :
     m_backRight(kBackRightJaguar),
     m_drive(m_frontLeft, m_backLeft, m_frontRight, m_backRight)
 {} catch (...) {
+	//m_drive.SetSafetyEnabled(false);
 	std::cout << "Exception caught in DriveSubsystem::DriveSubsystem\n"; //<< e.what() << std::endl;
 }
 
 void DriveSubsystem::init() 
 {
+	//m_drive.SetSafetyEnabled(false);
 	// Invert the left motors.
 	m_drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor, false);
 	m_drive.SetInvertedMotor(RobotDrive::kFrontRightMotor, true);
@@ -37,8 +39,8 @@ void DriveSubsystem::init()
 	// By default enable encoders. Either this function
 	// or DisableEncoders() should be called, otherwise
 	// the motors are not properly inverted, or set up.
-	EnableEncoders();
-	//DisableEncoders();
+	//EnableEncoders();
+	DisableEncoders();
 }
 
 void DriveSubsystem::EnableEncoders(bool invertGains) 
