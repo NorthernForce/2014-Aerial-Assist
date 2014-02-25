@@ -84,6 +84,18 @@ enum DigitalIOPort {
 	kCompressorSwitch = 1,
 };
 
+enum DigialAddress 
+{
+	k_targetingUltrasonicSerialMode = 10,
+	k_targetingUltrasonicOn = 11,
+};
+
+enum AnalogAddress
+{
+	k_MaxbotixUltrasonic = 1,
+	k_targetingUltrasonic = 2,
+};
+
 enum SolenoidPort {
 	kPickupSolenoid = 1,
 };

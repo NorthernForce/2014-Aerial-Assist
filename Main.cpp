@@ -16,6 +16,10 @@ PickupSubsystem& Main::getPickup() {
 	return getRobot().s_pickup;
 }
 
+MaxbotixUltrasonic& Main::getUltrasonic(){
+	return getRobot().s_ultrasonic;
+}
+
 OI& Main::getOI() {
 	return getRobot().oi;
 }
