@@ -9,7 +9,7 @@ MaxbotixUltrasonic::MaxbotixUltrasonic (
 	int analogChannel,
 	int serialChannel,
 	int onChannel) :
-	SubsystemWithCommand<void>("MaxbotixUltrasonic"),
+	SubsystemWithCommand<RangeReadout>("MaxbotixUltrasonic"),
 	m_minVoltage (0.5),
 	m_voltageRange (5.0 - m_minVoltage),
 	m_minDistance (3.0),
@@ -34,7 +34,7 @@ MaxbotixUltrasonic::MaxbotixUltrasonic (
 	float maxVoltage,
 	float minDistance,
 	float maxDistance) :
-	SubsystemWithCommand<void>("MaxbotixUltrasonic"),
+	SubsystemWithCommand<RangeReadout>("MaxbotixUltrasonic"),
 	m_minVoltage (minVoltage),
 	m_voltageRange (maxVoltage - m_minVoltage),
 	m_minDistance (minDistance),

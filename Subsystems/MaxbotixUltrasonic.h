@@ -1,6 +1,7 @@
 #pragma once
 
 #include <WPILib.h>
+#include "../Commands/RangeReadout.h"
 #include "SubsystemWithCommand.hpp"
 
 /**
@@ -10,7 +11,7 @@
  *
  * @author Arthur Lockman
  */
-class MaxbotixUltrasonic : public SubsystemWithCommand<void>
+class MaxbotixUltrasonic : public SubsystemWithCommand<RangeReadout>
 {
 public:
 	//! Constructor
