@@ -1,8 +1,9 @@
 #include "Main.h"
 
-Main::Main() :s_ballServer(kBallDataPort) {
-	
-}
+Main::Main() :
+	s_ballServer(kBallDataPort),
+	s_ultrasonic(k_targetingUltrasonic, k_targetingUltrasonicSerialMode, k_targetingUltrasonicOn)
+{}
 
 Main& Main::getRobot() {
 	return static_cast<Main&>(RobotBase::getInstance());
@@ -18,6 +19,10 @@ DriveSubsystem& Main::getDrive() {
 
 PickupSubsystem& Main::getPickup() {
 	return getRobot().s_pickup;
+}
+
+MaxbotixUltrasonic& Main::getUltrasonic(){
+	return getRobot().s_ultrasonic;
 }
 
 OI& Main::getOI() {

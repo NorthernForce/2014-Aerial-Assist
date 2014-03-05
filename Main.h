@@ -4,6 +4,7 @@
 #include "Subsystems/PneumaticSubsystem.h"
 #include "Subsystems/PickupSubsystem.h"
 #include "Subsystems/DriveSubsystem.h"
+#include "Subsystems/MaxbotixUltrasonic.h"
 #include "Subsystems/BallCmdServer.h"
 #include "Commands/Auto.h"
 #include "OI.h"
@@ -19,6 +20,8 @@ public:
 	static PickupSubsystem&     getPickup();
 	
 	static BallCmdServer& getBall();
+	static MaxbotixUltrasonic&	getUltrasonic();
+	
 private:
 	LiveWindow *lw;
 	Auto* autocmd;
@@ -28,6 +31,7 @@ private:
 	
 	BallCmdServer s_ballServer;
 	
+	MaxbotixUltrasonic s_ultrasonic;
 	OI				   oi;
 	
 	virtual void RobotInit();
