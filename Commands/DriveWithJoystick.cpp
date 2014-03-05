@@ -36,9 +36,7 @@ bool DriveWithJoystick::IsFinished() {
 }
 
 void DriveWithJoystick::End() {
-    printf("DriveWithJoystick Ended");
 }
 
 void DriveWithJoystick::Interrupted() {
-    printf("DriveWithJoystick Interrupted");
 }

@@ -4,22 +4,31 @@
 #include "Subsystems/PneumaticSubsystem.h"
 #include "Subsystems/PickupSubsystem.h"
 #include "Subsystems/DriveSubsystem.h"
+#include "Subsystems/BallCmdServer.h"
+#include "Commands/Auto.h"
 #include "OI.h"
 
 class Main : public IterativeRobot {
 public:
+	Main();
+	
 	static Main& 				getRobot();
 	static PneumaticSubsystem& 	getPneumatics();
 	static DriveSubsystem& 		getDrive();
 	static OI& 					getOI();
 	static PickupSubsystem&     getPickup();
+	
+	static BallCmdServer& getBall();
 private:
 	LiveWindow *lw;
+	Auto* autocmd;
 	PneumaticSubsystem s_pneumatics;
 	DriveSubsystem 	   s_drive;
 	PickupSubsystem    s_pickup;
-	OI				   oi;
 	
+	BallCmdServer s_ballServer;
+	
+	OI				   oi;
 	
 	virtual void RobotInit();
 	virtual void AutonomousInit();

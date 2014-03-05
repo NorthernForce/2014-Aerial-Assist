@@ -11,6 +11,9 @@ public:
 	void DriveMecanum(float xVel, float yVel, float rotVel);
 	void EnableEncoders(bool invertGains = true);
 	void DisableEncoders();
+	void EnableSafety();
+	void DisableSafety();
+	void Flip();
 	void SetMajorAxisMode(bool on);
 	void init();
 	
@@ -24,6 +27,7 @@ private:
 	int frontRight_alive;
 	int backLeft_alive;
 	int backRight_alive;
+	bool backwards;
 	CANJaguar m_frontLeft;
 	CANJaguar m_frontRight;
 	CANJaguar m_backLeft;

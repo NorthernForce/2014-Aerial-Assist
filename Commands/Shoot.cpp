@@ -7,23 +7,32 @@ Shoot::Shoot() {
 }
 
 void Shoot::Initialize() {
-    Main::getPickup().SetIntakeSpeed(1.0);
-    printf("Shooting\n");
+	Main::getPneumatics().SetShooter(true);
 }
 
 void Shoot::Execute() {
-	if(TimeSinceInitialized() > 1.0) {
-		Main::getPickup().SetIntakeSpeed(0.0);
-		Main::getPneumatics().SetShooter(true);
+	//Main::getPickup().SetIntakeSpeed(1.0);
+	if(TimeSinceInitialized() < 0.25) {
+		//Main::getPikup().SetIntakeSpeed(1.0);
+	} else {
+		Main::getPickup().SetIntakeSpeed(1.0);
+		//Main::getPneumatics().SetShooter(true);
+		Main::getPickup().SetIntakePosition(EXTEND);
 	}
 }
 
 bool Shoot::IsFinished() {
-	return TimeSinceInitialized() > 1.5;
+	//return TimeSinceInitialized() > 2.5;
+	return TimeSinceInitialized() > 1.75;
 }
 
 void Shoot::End() {
+	Main::getPickup().SetIntakeSpeed(0.0);
     Main::getPneumatics().SetShooter(false);
+    
+    // We may want it to retract automatically, but
+    // doing so uses up a good amount of air.
+    //Main::getPickup().SetIntakePosition(RETRACT);
 }
 
 void Shoot::Interrupted() {

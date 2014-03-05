@@ -8,6 +8,7 @@ enum DriveMode {
 	BOTH_AXES,
 	ENCODERS_ON,
 	ENCODERS_OFF,
+	SWAP_SIDES,
 };
 
 template<DriveMode mode>
@@ -33,6 +34,9 @@ public:
 			printf(" Encoders off\n");
 			Main::getDrive().DisableEncoders();
 			break;
+		case SWAP_SIDES:
+			printf(" Swap sides\n");
+			Main::getDrive().Flip();
 		}
 	}
 	

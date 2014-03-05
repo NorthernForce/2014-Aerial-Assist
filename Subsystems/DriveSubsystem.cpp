@@ -6,7 +6,7 @@
 DriveSubsystem::DriveSubsystem() try : 
 	SubsystemWithCommand<DriveWithJoystick>("DriveSubsystem"), 
 	P(0.50),
-	I(0.02),
+	I(0.01),
 	D(0.00),
 	n(0),
 	m_majorAxisMode(false),
@@ -14,13 +14,13 @@ DriveSubsystem::DriveSubsystem() try :
 	frontRight_alive(true),
 	backLeft_alive(true),
 	backRight_alive(true),
+	backwards(false),
     m_frontLeft(kFrontLeftJaguar), 
     m_frontRight(kFrontRightJaguar), 
     m_backLeft(kBackLeftJaguar), 
     m_backRight(kBackRightJaguar),
     m_drive(m_frontLeft, m_backLeft, m_frontRight, m_backRight)
 {} catch (...) {
-	//m_drive.SetSafetyEnabled(false);
 	std::cout << "Exception caught in DriveSubsystem::DriveSubsystem\n"; //<< e.what() << std::endl;
 }
 
@@ -34,11 +34,11 @@ void DriveSubsystem::init()
 	m_drive.SetInvertedMotor(RobotDrive::kRearRightMotor,  true);
 	    
 	// Make sure the timeout is reasonable
-	m_drive.SetExpiration(0.2);
+	m_drive.SetExpiration(0.25);
 
 	// By default enable encoders. Either this function
 	// or DisableEncoders() should be called, otherwise
-	// the motors are not properly inverted, or set up.
+	// the motors are not properly inverted or set up.
 	//EnableEncoders();
 	DisableEncoders();
 }
@@ -77,9 +77,12 @@ void DriveSubsystem::EnableEncoders(bool invertGains)
 	m_backRight.ChangeControlMode(CANJaguar::kSpeed);
 	
 	// Fetch PID gains from the smart dashboard.
-	P = SmartDashboard::GetNumber("Drive P");
-	I = SmartDashboard::GetNumber("Drive I");
-	D = SmartDashboard::GetNumber("Drive D");
+	//P = SmartDashboard::GetNumber("Drive P");
+	//I = SmartDashboard::GetNumber("Drive I");
+	//D = SmartDashboard::GetNumber("Drive D");
+	P = 0.5;
+	I = 0.02;
+	D = 0.0;
 	
 	// Set proportional, integral and derivative gains,
 	// inverting if appropriate.
@@ -136,6 +139,18 @@ void DriveSubsystem::DisableEncoders()
 	m_backRight.ChangeControlMode(CANJaguar::kPercentVbus);
 }
 
+void DriveSubsystem::EnableSafety() {
+	m_drive.SetSafetyEnabled(true);
+}
+
+void DriveSubsystem::DisableSafety() {
+	m_drive.SetSafetyEnabled(false);
+}
+
+void DriveSubsystem::Flip() {
+	backwards = !backwards;
+}
+
 void DriveSubsystem::SetMajorAxisMode(bool on) {
 	m_majorAxisMode = on;
 }
@@ -146,11 +161,22 @@ void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel)
 		if(fabs(xVel) > fabs(yVel)) yVel = 0.0f;
 		else xVel = 0.0f;
 	}
+	
+	if(backwards) {
+		xVel = -xVel;
+		yVel = -yVel;
+	}
+	
 	// Drive Mecanum
 	m_drive.MecanumDrive_Cartesian(xVel, yVel, rotVel);
+	//m_drive.MecanumDrive_Cartesian(0,0,0);
+	
+	
 	// Update smart dashboard with command, output voltage, 
 	// registered output, and input voltage, for each Jaguar.
 	// Only do this 5 times a second. 
+	
+	/*
 	n++;
 	if(n%10 == 0) 
 	{
@@ -198,5 +224,5 @@ void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel)
 		SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
 		SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
 		SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
-	}		
+	}*/		
 }

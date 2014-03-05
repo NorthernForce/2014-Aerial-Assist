@@ -20,6 +20,9 @@
  /*
   * @brief The button ports on the XBox Joystick, as interpreted by the cRIO.
   */
+
+static const int kBallDataPort = 1726;
+
 enum XBoxJoystickButtonPort
 {
 	kXBoxButtonA = 1,
@@ -54,15 +57,18 @@ enum Attack3JoystickPort
 };
 
 enum JagCANAdress {
-//    kBackRightJaguar = 1,
-//    kFrontRightJaguar = 2,
-//    kBackLeftJaguar = 3,
-//    kFrontLeftJaguar = 4,
+	
 	kBackRightJaguar = 14,
 	kFrontRightJaguar = 12,
 	kBackLeftJaguar = 13,
 	kFrontLeftJaguar = 11,
 	kPickupJaguar = 15,
+	
+//	kBackRightJaguar = 8,
+//	kFrontRightJaguar = 6,
+//	kBackLeftJaguar = 7,
+//	kFrontLeftJaguar = 5,
+//	kPickupJaguar = 9,
 };
 
 enum JoystickPort {
@@ -71,16 +77,16 @@ enum JoystickPort {
 };
 
 enum RelayPort {
-	kCompressorModule = 2,
+	kCompressorModule = 1,
 	kCompressorRelay = 1,
-	kShooterModule = 2,
+	kShooterModule = 1,
 	kShooterRelay = 3,
-	kPickupModule = 2,
+	kPickupModule = 1,
 	kPickupRelay = 2,
 };
 
 enum DigitalIOPort {
-	kCompressorSwitchModule = 2,
+	kCompressorSwitchModule = 1,
 	kCompressorSwitch = 1,
 };
 

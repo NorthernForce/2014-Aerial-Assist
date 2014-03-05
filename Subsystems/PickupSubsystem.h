@@ -1,7 +1,6 @@
 #pragma once
 //#include "Commands/Subsystem.h"
 #include "WPILib.h"
-#include "DoubleSolenoid.h"
 #include "SubsystemWithCommand.hpp"
 
 enum Position {
@@ -9,12 +8,13 @@ enum Position {
 	RETRACT,
 };
 
-class PickupSubsystem: public SubsystemWithCommand<void>
+class PickupSubsystem: public Subsystem
 {
 public:
 	PickupSubsystem();
     void SetIntakeSpeed(float speed);
     void SetIntakePosition(Position dir);
+    virtual void InitDefaultCommand();
     void init();
 private:
     CANJaguar m_PickupJag;

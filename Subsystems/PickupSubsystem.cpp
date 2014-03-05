@@ -1,16 +1,21 @@
 #include "PickupSubsystem.h"
+#include "../Commands/SetIntake.hpp"
 #include "../Robotmap.h"
 
 PickupSubsystem::PickupSubsystem(): 
-	SubsystemWithCommand<void>("PickupSubsystem"),
+	Subsystem("PickupSubsystem"),
 	m_PickupJag(kPickupJaguar),
 	m_PickupCyls(kPickupModule, kPickupRelay, Relay::kBothDirections)
 {
 	m_PickupCyls.Set(Relay::kReverse);
 }
 
+void PickupSubsystem::InitDefaultCommand() {
+	SetDefaultCommand(new SetIntake<RETRACTED | STOPPED>);
+}
+
 void PickupSubsystem::init() {
-	m_PickupJag.SetSafetyEnabled(false);
+	//m_PickupJag.SetSafetyEnabled(false);
 }
 
 void PickupSubsystem::SetIntakePosition(Position dir) {
