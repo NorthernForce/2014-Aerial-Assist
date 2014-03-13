@@ -8,6 +8,10 @@ Auto::Auto() {
 }
 
 void Auto::Initialize() {
+	//Main::getDrive().EnableEncoders();
+	Main::getDrive().SetDriveMode(MecanumDrive::SPEED);
+	//unsigned long t = GetMsClock();
+	//printf("AUTO-INIT:%d", t);
 	//Main::getPneumatics().SetShooter(true);
 }
 
@@ -16,21 +20,26 @@ void Auto::Execute() {
 	//Main::getPickup().SetIntakeSpeed(1.0);
 	if(t < 1.55) {
 		Main::getPickup().SetIntakePosition(EXTEND);
-		Main::getDrive().DriveMecanum(0, -1.0, 0.0);
+		//Main::getDrive().DriveMecanum(0, -1.0, 0.0);
+		Main::getDrive().Drive(0, -1.0, 0);
 	} else if(t < 2.0) {
-		Main::getDrive().DriveMecanum(0,0,0);
+		//Main::getDrive().DriveMecanum(0,0,0);
+		Main::getDrive().Drive(0,0,0);
 		Main::getPickup().SetIntakePosition(RETRACT);
 	} else if(t < 6.5) {
-		Main::getDrive().DriveMecanum(0,0,0);
+		//Main::getDrive().DriveMecanum(0,0,0);
+		Main::getDrive().Drive(0,0,0);
 	} else if(t < 7.5) {
 		//Main::getPikup().SetIntakeSpeed(1.0);
 		Main::getPneumatics().SetShooter(true);
-		Main::getDrive().DriveMecanum(0,0,0);;
+		//Main::getDrive().DriveMecanum(0,0,0);;
+		Main::getDrive().Drive(0,0,0);
 	} else {
 		Main::getPickup().SetIntakeSpeed(1.0);
 		//Main::getPneumatics().SetShooter(true);
 		Main::getPickup().SetIntakePosition(EXTEND);
-		Main::getDrive().DriveMecanum(0,0,0);
+		//Main::getDrive().DriveMecanum(0,0,0);
+		Main::getDrive().Drive(0,0,0);
 	}
 }
 

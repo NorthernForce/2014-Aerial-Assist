@@ -43,8 +43,21 @@ void DriveSubsystem::init()
 	DisableEncoders();
 }
 
-void DriveSubsystem::EnableEncoders(bool invertGains) 
+bool DriveSubsystem::EnableEncoders(CANJaguar::ControlMode mode, float maxOutput/*bool invertGains*/) 
 {
+	switch(mode) {
+	case CANJaguar::kSpeed:
+		//m_drive.SetMaxOutput(kMaxDriveRPM);
+		break;
+	case CANJaguar::kPosition:
+		//m_drive.SetMaxOutput(1.0);
+		break;
+	default:
+		return false;
+	}
+	
+	m_drive.SetMaxOutput(maxOutput);
+	
 	// When encoders are enabled, all motors must be inverted from
 	// what they normaly would be.
 	m_drive.SetInvertedMotor(RobotDrive::kFrontLeftMotor, false);
@@ -53,7 +66,6 @@ void DriveSubsystem::EnableEncoders(bool invertGains)
 	m_drive.SetInvertedMotor(RobotDrive::kRearRightMotor,  true);
 	// Set max output to be max drive rpm, since the jaguars read
 	// the encoder speed in rpm.
-	m_drive.SetMaxOutput(kMaxDriveRPM);
 	
 	// Disable encoders, if alread enabled.
 	// Not sure this is necessary.
@@ -71,38 +83,68 @@ void DriveSubsystem::EnableEncoders(bool invertGains)
 	// To use the encoders, we need to be in either
 	// speed mode or position mode. For driving the 
 	// robot, speed mode makes more sense.
-	m_frontLeft.ChangeControlMode(CANJaguar::kSpeed);
-	m_backLeft.ChangeControlMode(CANJaguar::kSpeed);
-	m_frontRight.ChangeControlMode(CANJaguar::kSpeed);
-	m_backRight.ChangeControlMode(CANJaguar::kSpeed);
+	m_frontLeft.ChangeControlMode(mode);
+	m_backLeft.ChangeControlMode(mode);
+	m_frontRight.ChangeControlMode(mode);
+	m_backRight.ChangeControlMode(mode);
 	
 	// Fetch PID gains from the smart dashboard.
 	//P = SmartDashboard::GetNumber("Drive P");
 	//I = SmartDashboard::GetNumber("Drive I");
 	//D = SmartDashboard::GetNumber("Drive D");
-	P = 0.5;
-	I = 0.02;
-	D = 0.0;
+	switch(mode) {
+	case CANJaguar::kSpeed:
+		P = 0.5;
+		I = 0.01;
+		D = 0.0;
+		break;
+	case CANJaguar::kPosition:
+		P = SmartDashboard::GetNumber("Drive P");
+		I = SmartDashboard::GetNumber("Drive I");
+		D = SmartDashboard::GetNumber("Drive D");
+		//P = 20.0;//SmartDashboard::GetNumber("Position P");
+		//I = 0.0;//SmartDashboard::GetNumber("Position I");
+		//D = 0.0;//SmartDashboard::GetNumber("Position D");
+		break;
+	default:
+		break;
+	}
 	
 	// Set proportional, integral and derivative gains,
 	// inverting if appropriate.
-	if(invertGains) {
-		m_frontLeft.SetPID(-P, -I, -D);
-		m_backLeft.SetPID(-P, -I, -D);
-		m_frontRight.SetPID(-P, -I, -D);
-		m_backRight.SetPID(-P, -I, -D);
-	} else {
+
+	//if(invertGains) {
+	m_frontLeft.SetPID(-P, -I, -D);
+	m_backLeft.SetPID(-P, -I, -D);
+	m_frontRight.SetPID(-P, -I, -D);
+	m_backRight.SetPID(-P, -I, -D);
+	/*} else {
 		m_frontLeft.SetPID(P, I, D);
 		m_backLeft.SetPID(P, I, D);
 		m_frontRight.SetPID(P, I, D);
 		m_backRight.SetPID(P, I, D);
-	}
+	}*/
 	
 	// We have quadrature encoders
-	m_frontLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-	m_backLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-	m_frontRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-	m_backRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+	switch(mode) {
+	case CANJaguar::kSpeed:
+		m_frontLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		m_backLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		m_frontRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		m_backRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		//m_drive.SetMaxOutput(kMaxDriveRPM);
+		break;
+	case CANJaguar::kPosition:
+		m_frontLeft.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		m_backLeft.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		m_frontRight.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		m_backRight.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		//m_drive.SetMaxOutput(1.0);
+		break;
+	default:
+		return false;
+	}
+	
 	// Set encoder pulses per rev
 	m_frontLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
 	m_backLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
@@ -113,6 +155,8 @@ void DriveSubsystem::EnableEncoders(bool invertGains)
 	m_backLeft.EnableControl();
 	m_frontRight.EnableControl();
 	m_backRight.EnableControl();
+	
+	return true;
 }	
 
 void DriveSubsystem::DisableEncoders() 
@@ -176,9 +220,8 @@ void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel)
 	// registered output, and input voltage, for each Jaguar.
 	// Only do this 5 times a second. 
 	
-	/*
 	n++;
-	if(n%10 == 0) 
+	if(n%5 == 0) 
 	{
 		if(m_frontLeft.IsAlive() || m_frontLeft.GetPowerCycled()) {
 			frontLeft_alive = 10;
@@ -201,28 +244,39 @@ void DriveSubsystem::DriveMecanum(float xVel, float yVel, float rotVel)
 		if(backLeft_alive > 0) --backLeft_alive;
 		if(backRight_alive > 0) --backRight_alive;
 		
-		SmartDashboard::PutNumber("M4 Command", m_frontLeft.Get());
+		//SmartDashboard::PutNumber("M4 Command", m_frontLeft.Get());
 		SmartDashboard::PutNumber("M4 Output",  m_frontLeft.GetSpeed());
-		SmartDashboard::PutNumber("M4 Voltage", m_frontLeft.GetOutputVoltage());
-		SmartDashboard::PutNumber("M4 VBus", m_frontLeft.GetBusVoltage());
-		SmartDashboard::PutBoolean("M4 Alive",  frontLeft_alive == 0);
+		//SmartDashboard::PutNumber("M4 Voltage", m_frontLeft.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M4 VBus", m_frontLeft.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M4 Alive",  frontLeft_alive == 0);
 	
-		SmartDashboard::PutNumber("M2 Command", m_frontRight.Get());
+		//SmartDashboard::PutNumber("M2 Command", m_frontRight.Get());
 		SmartDashboard::PutNumber("M2 Output",  m_frontRight.GetSpeed());
-		SmartDashboard::PutNumber("M2 Voltage", m_frontRight.GetOutputVoltage());
-		SmartDashboard::PutNumber("M2 VBus", m_frontRight.GetBusVoltage());
-		SmartDashboard::PutBoolean("M2 Alive",  frontRight_alive == 0);
+		//SmartDashboard::PutNumber("M2 Voltage", m_frontRight.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M2 VBus", m_frontRight.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M2 Alive",  frontRight_alive == 0);
 		
-		SmartDashboard::PutNumber("M3 Command", m_backLeft.Get());
+		//SmartDashboard::PutNumber("M3 Command", m_backLeft.Get());
 		SmartDashboard::PutNumber("M3 Output",  m_backLeft.GetSpeed());
-		SmartDashboard::PutNumber("M3 Voltage", m_backLeft.GetOutputVoltage());
-		SmartDashboard::PutNumber("M3 VBus", m_backLeft.GetBusVoltage());	
-		SmartDashboard::PutBoolean("M3 Alive",  backLeft_alive == 0);
+		//SmartDashboard::PutNumber("M3 Voltage", m_backLeft.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M3 VBus", m_backLeft.GetBusVoltage());	
+		//SmartDashboard::PutBoolean("M3 Alive",  backLeft_alive == 0);
 		
-		SmartDashboard::PutNumber("M1 Command", m_backRight.Get());
+		//SmartDashboard::PutNumber("M1 Command", m_backRight.Get());
 		SmartDashboard::PutNumber("M1 Output",  m_backRight.GetSpeed());
-		SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
-		SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
-		SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
-	}*/		
+		//SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
+		
+		/*
+		SmartDashboard::PutNumber("M1 Pos", m_backRight.GetPosition());
+		SmartDashboard::PutNumber("M2 Pos", m_frontRight.GetPosition());
+		SmartDashboard::PutNumber("M3 Pos", m_backLeft.GetPosition());
+		SmartDashboard::PutNumber("M4 Pos", m_frontLeft.GetPosition());
+		*/
+	}
+}
+
+void DriveSubsystem::SetMaxOutput(float maxOutput) {
+	m_drive.SetMaxOutput(maxOutput);
 }

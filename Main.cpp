@@ -1,9 +1,12 @@
 #include "Main.h"
+#include "Commands/DriveTo.h"
 
 Main::Main() :
 	s_ballServer(kBallDataPort),
 	s_ultrasonic(k_targetingUltrasonic, k_targetingUltrasonicSerialMode, k_targetingUltrasonicOn)
-{}
+{
+	
+}
 
 Main& Main::getRobot() {
 	return static_cast<Main&>(RobotBase::getInstance());
@@ -13,7 +16,7 @@ PneumaticSubsystem& Main::getPneumatics() {
 	return getRobot().s_pneumatics;
 }
 
-DriveSubsystem& Main::getDrive() {
+MecanumDrive& Main::getDrive() {
 	return getRobot().s_drive;
 }
 
@@ -35,16 +38,18 @@ BallCmdServer& Main::getBall() {
 
 void Main::RobotInit() {
 	oi.init();
-	s_drive.init();
+	s_drive.Init();
 	s_pickup.init();
 	s_ballServer.init();
-	autocmd = new Auto();
-	lw = LiveWindow::GetInstance();
+	autocmd = new DriveTo(0.0, 10.0);// Auto();
+	//lw = LiveWindow::GetInstance();
 }
 	
 void Main::AutonomousInit() {
 	//s_drive.DisableSafety();
-	s_drive.EnableEncoders();
+	s_drive.SetSafetyEnabled(false);
+	//s_drive.EnableEncoders();
+	//s_drive.SetDriveMode(MecanumDrive::SPEED);
 	autocmd->Start();
 }
 	
@@ -53,9 +58,11 @@ void Main::AutonomousPeriodic() {
 }
 	
 void Main::TeleopInit() {
-	s_drive.EnableEncoders();
+	//s_drive.EnableEncoders();
+	//s_drive.SetDriveMode(MecanumDrive::SPEED);
 	autocmd->Cancel();
 	//s_drive.EnableSafety();
+	s_drive.SetSafetyEnabled(true);
 }
 
 void Main::TeleopPeriodic() {
@@ -63,7 +70,7 @@ void Main::TeleopPeriodic() {
 }
 	
 void Main::TestPeriodic() {
-	lw->Run();
+	//lw->Run();
 }
 
 START_ROBOT_CLASS(Main);

@@ -12,12 +12,14 @@ using namespace std;
  * @param port The port to connect to on the server (ex: 9999).
  */
 BallCmdServer::BallCmdServer(int port) :
+	SubsystemWithCommand<KeepAlive>("BallCmdServer"),
 	m_port(port),
 	in_sockfd(socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP)),
 	out_sockfd(socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)),
+	connfd(-1),
 	alliance(DriverStation::kInvalid),
 	m_incomingTask("IncomingConnection", (FUNCPTR)BallCmdServer::RecvTask, Task::kDefaultPriority-10),
-	m_outgoingTask("OutgoingConnection", (FUNCPTR)BallCmdServer::AcceptTask, Task::kDefaultPriority - 10),
+	m_outgoingTask("OutgoingConnection", (FUNCPTR)BallCmdServer::AcceptTask, Task::kDefaultPriority-10),
 	m_dataSemaphore(semBCreate(SEM_Q_PRIORITY, SEM_FULL)),
 	xVel(0.0),
 	yVel(0.0),
@@ -60,8 +62,7 @@ BallCmdServer::BallCmdServer(int port) :
 		goto fail;
 	}
 	
-	m_incomingTask.Start(reinterpret_cast<UINT32>(this));
-	m_outgoingTask.Start(reinterpret_cast<UINT32>(this));
+	
 fail:;
 }
 
@@ -73,9 +74,11 @@ void BallCmdServer::AcceptTask(BallCmdServer &sock)
 {
 	while(1) {
 		if(sock.connfd < 0) {
+			printf("Waiting for connection...\n");
 			sock.connfd = accept(sock.out_sockfd, 0, 0);
-			Wait(1.0);
+			printf("Got connection\n");
 		}
+		Wait(1);
 	}
 }
 
@@ -85,6 +88,8 @@ void BallCmdServer::RecvTask(BallCmdServer& sock) {
 
 void BallCmdServer::init() {
 	alliance = DriverStation::GetInstance()->GetAlliance();
+	m_incomingTask.Start(reinterpret_cast<UINT32>(this));
+	m_outgoingTask.Start(reinterpret_cast<UINT32>(this));
 }
 
 void BallCmdServer::getVel(float* x, float* y, float* r) {
@@ -123,21 +128,26 @@ void BallCmdServer::StopFeedback()
  */
 void BallCmdServer::send(char byte)
 {
+	//printf("Trying to send %d . . . ", byte);
 	if(connfd >= 0) {
 		out_buf[0] = byte;
 		if(::send(connfd, out_buf, 1, 0) < 0) {
 			close(connfd);
 			connfd = -1;
+		} else {
+			//printf("sent");
 		}
+		
 	}
+	//printf("\n");
 }
 
 bool BallCmdServer::recv() {
 	if(3 == recvfrom(in_sockfd, in_buf, sizeof in_buf, 0, 0, 0)) {
 		const Synchronized sync(m_dataSemaphore);
-		xVel = (in_buf[0] <= 127) ? (in_buf[0]/127.0f) : ((in_buf[0]-255.0f)/128.0f);
-		yVel = (in_buf[1] <= 127) ? (in_buf[1]/127.0f) : ((in_buf[1]-255.0f)/128.0f);
-		rVel = (in_buf[2] <= 127) ? (in_buf[2]/127.0f) : ((in_buf[2]-255.0f)/128.0f);
+		xVel = (in_buf[0] <= 127) ? (in_buf[0]/127.0f) : ((in_buf[0]-256.0f)/128.0f);
+		yVel = (in_buf[1] <= 127) ? (in_buf[1]/127.0f) : ((in_buf[1]-256.0f)/128.0f);
+		rVel = (in_buf[2] <= 127) ? (in_buf[2]/127.0f) : ((in_buf[2]-256.0f)/128.0f);
 		return true;
 	} else {
 		return false;

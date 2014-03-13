@@ -3,6 +3,7 @@
 #include "Commands/Command.h"
 #include "Subsystems/PneumaticSubsystem.h"
 #include "Subsystems/PickupSubsystem.h"
+#include "Subsystems/MecanumDrive.h"
 #include "Subsystems/DriveSubsystem.h"
 #include "Subsystems/MaxbotixUltrasonic.h"
 #include "Subsystems/BallCmdServer.h"
@@ -15,7 +16,7 @@ public:
 	
 	static Main& 				getRobot();
 	static PneumaticSubsystem& 	getPneumatics();
-	static DriveSubsystem& 		getDrive();
+	static MecanumDrive& 		getDrive();
 	static OI& 					getOI();
 	static PickupSubsystem&     getPickup();
 	
@@ -24,9 +25,9 @@ public:
 	
 private:
 	LiveWindow *lw;
-	Auto* autocmd;
+	Command* autocmd;
 	PneumaticSubsystem s_pneumatics;
-	DriveSubsystem 	   s_drive;
+	MecanumDrive 	   s_drive;
 	PickupSubsystem    s_pickup;
 	
 	BallCmdServer s_ballServer;

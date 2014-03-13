@@ -3,23 +3,25 @@
 #include "WPILib.h"
 #include "SubsystemWithCommand.hpp"
 #include "../Commands/DriveWithJoystick.h"
+#include "../Robotmap.h"
 
 class DriveSubsystem: public SubsystemWithCommand<DriveWithJoystick>
 {
 public:
 	DriveSubsystem();
 	void DriveMecanum(float xVel, float yVel, float rotVel);
-	void EnableEncoders(bool invertGains = true);
+	bool EnableEncoders(CANJaguar::ControlMode mode = CANJaguar::kSpeed, float maxOutput = kMaxDriveRPM/*bool invertGains = true*/);
 	void DisableEncoders();
 	void EnableSafety();
 	void DisableSafety();
 	void Flip();
 	void SetMajorAxisMode(bool on);
+	void SetMaxOutput(float maxOutput);
 	void init();
 	
-	double P;// = 1.25;
-	double I;// = 0.02;
-	double D;// = 0.00;
+	double P;
+	double I;
+	double D;
 	int n;
 private:
 	bool m_majorAxisMode;

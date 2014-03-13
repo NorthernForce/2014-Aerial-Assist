@@ -7,10 +7,15 @@ RangeReadout::RangeReadout() {
 }
 
 void RangeReadout::Initialize() {
+	n = 0;
 }
 
 void RangeReadout::Execute() {
-	SmartDashboard::PutNumber("Range", Main::getUltrasonic().GetRangeInInches());
+	if(n%10 == 0) {
+		SmartDashboard::PutNumber("Range", Main::getUltrasonic().GetRangeInInches());
+		n = 0;
+	}
+	++n;
 }
 
 bool RangeReadout::IsFinished() {

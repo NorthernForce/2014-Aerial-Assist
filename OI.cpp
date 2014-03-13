@@ -18,6 +18,7 @@ void OI::init() {
     m_DriverStick.B.WhileHeld<SetIntake<EXTENDED | FORWARD> >();
     m_DriverStick.Back.WhileHeld<SetIntake<REVERSE> >();
     m_DriverStick.Start.WhileHeld<FollowBall>();
+    m_DriverStick.Y.WhenPressed<FollowBall>();
     
     m_ManipulatorStick.Trigger.WhenPressed<Shoot>();
     m_ManipulatorStick.Button2.WhileHeld<SetIntake<EXTENDED | FORWARD> >();

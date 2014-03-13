@@ -7,11 +7,11 @@
  *
  * @author ExampleAuthor
  */
-class RangeReadout: public Command {
+class KeepAlive: public Command {
 private:
 	int n;
 public:
-	RangeReadout();
+	KeepAlive();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

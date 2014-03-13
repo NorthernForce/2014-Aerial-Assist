@@ -28,11 +28,13 @@ public:
 			break;
 		case ENCODERS_ON:
 			printf(" Encoders on\n");
-			Main::getDrive().EnableEncoders(true);
+			//Main::getDrive().EnableEncoders();
+			Main::getDrive().SetDriveMode(MecanumDrive::SPEED);
 			break;
 		case ENCODERS_OFF:
 			printf(" Encoders off\n");
-			Main::getDrive().DisableEncoders();
+			//Main::getDrive().DisableEncoders();
+			Main::getDrive().SetDriveMode(MecanumDrive::PERCENT_VBUS);
 			break;
 		case SWAP_SIDES:
 			printf(" Swap sides\n");

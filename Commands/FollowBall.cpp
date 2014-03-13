@@ -5,6 +5,7 @@
 FollowBall::FollowBall()
 {
     Requires(&Main::getDrive());
+    Requires(&Main::getBall());
 }
 
 void FollowBall::Initialize() {
@@ -22,7 +23,8 @@ void FollowBall::Execute() {
     SmartDashboard::PutNumber("Right Stick X Value: ", w);
     
     // Send command to drive subsystem
-	Main::getDrive().DriveMecanum(x, y, w);
+	//Main::getDrive().DriveMecanum(x, y, w);
+    Main::getDrive().Drive(x, y, w);
     //Main::getDrive().DriveMecanum(0,0,0);
 }
 

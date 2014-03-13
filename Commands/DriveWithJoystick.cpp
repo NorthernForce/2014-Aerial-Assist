@@ -27,7 +27,7 @@ void DriveWithJoystick::Execute() {
     SmartDashboard::PutNumber("Right Stick X Value: ", w);
     
     // Send command to drive subsystem
-	Main::getDrive().DriveMecanum(x, y, w);
+	Main::getDrive().Drive(x, y, w);
 }
 
 // This is a default command which should never stop, except when kicked off by another command.

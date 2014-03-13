@@ -17,6 +17,8 @@
 #include <vector>
 #include <netinet/in.h>
 #include "Commands/Subsystem.h"
+#include "../Subsystems/SubsystemWithCommand.hpp"
+#include "../Commands/KeepAlive.h"
 #include "WPILib.h"
 
 /**
@@ -27,7 +29,7 @@
  *
  * @author arthurlockman
  */
-class BallCmdServer
+class BallCmdServer : public SubsystemWithCommand<KeepAlive>
 {
 private:
 	int m_port;
@@ -54,7 +56,6 @@ private:
 	
 public:
 	BallCmdServer(int port);
-	~BallCmdServer();
 	void getVel(float* x, float* y, float* r);
 	void reset();
 	void init();

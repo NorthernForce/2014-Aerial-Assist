@@ -58,17 +58,17 @@ enum Attack3JoystickPort
 
 enum JagCANAdress {
 	
-	kBackRightJaguar = 14,
-	kFrontRightJaguar = 12,
-	kBackLeftJaguar = 13,
-	kFrontLeftJaguar = 11,
-	kPickupJaguar = 15,
+//	kBackRightJaguar = 14,
+//	kFrontRightJaguar = 12,
+//	kBackLeftJaguar = 13,
+//	kFrontLeftJaguar = 11,
+//	kPickupJaguar = 15,
 	
-//	kBackRightJaguar = 8,
-//	kFrontRightJaguar = 6,
-//	kBackLeftJaguar = 7,
-//	kFrontLeftJaguar = 5,
-//	kPickupJaguar = 9,
+	kBackRightJaguar = 8,
+	kFrontRightJaguar = 6,
+	kBackLeftJaguar = 7,
+	kFrontLeftJaguar = 5,
+	kPickupJaguar = 9,
 };
 
 enum JoystickPort {
@@ -88,17 +88,13 @@ enum RelayPort {
 enum DigitalIOPort {
 	kCompressorSwitchModule = 1,
 	kCompressorSwitch = 1,
+	k_targetingUltrasonicSerialMode = 3,
+	k_targetingUltrasonicOn = 2,
 };
 
-enum DigialAddress 
+enum AnalogIOPort
 {
-	k_targetingUltrasonicSerialMode = 10,
-	k_targetingUltrasonicOn = 11,
-};
-
-enum AnalogAddress
-{
-	k_MaxbotixUltrasonic = 1,
+	//k_MaxbotixUltrasonic = 1,
 	k_targetingUltrasonic = 2,
 };
 
@@ -108,5 +104,6 @@ enum SolenoidPort {
 
 static const float kDeadbandLimit = 0.01;
 static const float kMaxDriveVoltage = 12.0;
-static const float kMaxDriveRPM = 360.0;
+static const float kMaxDriveRPM = 475.0;
+static const float kRevsPerFoot = 12.0/(2.0*3.14159*3.0); /* 12in / (1ft * 2.0pi r(in)) */
 static const int kEncoderPulsesPerRev = 256;
