@@ -58,6 +58,41 @@ void MecanumDrive::Drive(double x, double y, double w) {
 	default:
 		break;
 	}
+	
+	n++;
+	if(n%5 == 0) 
+	{
+		SmartDashboard::PutNumber("M4 Command", m_frontLeft.Get());
+		SmartDashboard::PutNumber("M4 Output",  m_frontLeft.GetPosition());
+		//SmartDashboard::PutNumber("M4 Voltage", m_frontLeft.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M4 VBus", m_frontLeft.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M4 Alive",  frontLeft_alive == 0);
+		
+		SmartDashboard::PutNumber("M2 Command", m_frontRight.Get());
+		SmartDashboard::PutNumber("M2 Output",  m_frontRight.GetPosition());
+		//SmartDashboard::PutNumber("M2 Voltage", m_frontRight.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M2 VBus", m_frontRight.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M2 Alive",  frontRight_alive == 0);
+		
+		SmartDashboard::PutNumber("M3 Command", m_backLeft.Get());
+		SmartDashboard::PutNumber("M3 Output",  m_backLeft.GetPosition());
+		//SmartDashboard::PutNumber("M3 Voltage", m_backLeft.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M3 VBus", m_backLeft.GetBusVoltage());	
+		//SmartDashboard::PutBoolean("M3 Alive",  backLeft_alive == 0);
+		
+		SmartDashboard::PutNumber("M1 Command", m_backRight.Get());
+		SmartDashboard::PutNumber("M1 Output",  m_backRight.GetPosition());
+		//SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
+		//SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
+		//SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
+		
+		/*
+		SmartDashboard::PutNumber("M1 Pos", m_backRight.GetPosition());
+		SmartDashboard::PutNumber("M2 Pos", m_frontRight.GetPosition());
+		SmartDashboard::PutNumber("M3 Pos", m_backLeft.GetPosition());
+		SmartDashboard::PutNumber("M4 Pos", m_frontLeft.GetPosition());
+		*/
+	}
 }
 
 void MecanumDrive::SetDriveMode(DriveMode mode) {

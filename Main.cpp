@@ -41,7 +41,7 @@ void Main::RobotInit() {
 	s_drive.Init();
 	s_pickup.init();
 	s_ballServer.init();
-	autocmd = new DriveTo(0.0, 10.0);// Auto();
+	autocmd = new DriveTo(0.0, -10.0);// Auto();
 	//lw = LiveWindow::GetInstance();
 }
 	
