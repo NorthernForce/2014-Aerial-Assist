@@ -1,7 +1,9 @@
 #include "Main.h"
 #include "Commands/DriveTo.h"
+#include "Commands/Auto1.h"
 
 Main::Main() :
+	s_pressure(k_pressureChannel),
 	s_ballServer(kBallDataPort),
 	s_ultrasonic(k_targetingUltrasonic, k_targetingUltrasonicSerialMode, k_targetingUltrasonicOn)
 {
@@ -28,6 +30,10 @@ MaxbotixUltrasonic& Main::getUltrasonic(){
 	return getRobot().s_ultrasonic;
 }
 
+PressureSensor& Main::getPressure(){
+	return getRobot().s_pressure;
+}
+
 OI& Main::getOI() {
 	return getRobot().oi;
 }
@@ -41,7 +47,8 @@ void Main::RobotInit() {
 	s_drive.Init();
 	s_pickup.init();
 	s_ballServer.init();
-	autocmd = new DriveTo(0.0, -10.0);// Auto();
+	//autocmd = new DriveTo(0.0, 10.0);// Auto();
+    autocmd = new Auto1();
 	//lw = LiveWindow::GetInstance();
 }
 	

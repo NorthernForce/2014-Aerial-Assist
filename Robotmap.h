@@ -96,6 +96,7 @@ enum AnalogIOPort
 {
 	//k_MaxbotixUltrasonic = 1,
 	k_targetingUltrasonic = 2,
+	k_pressureChannel = 3,
 };
 
 enum SolenoidPort {

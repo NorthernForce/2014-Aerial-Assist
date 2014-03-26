@@ -7,6 +7,7 @@
 #include "Subsystems/DriveSubsystem.h"
 #include "Subsystems/MaxbotixUltrasonic.h"
 #include "Subsystems/BallCmdServer.h"
+#include "Subsystems/PressureSensor.h"
 #include "Commands/Auto.h"
 #include "OI.h"
 
@@ -19,6 +20,7 @@ public:
 	static MecanumDrive& 		getDrive();
 	static OI& 					getOI();
 	static PickupSubsystem&     getPickup();
+	static PressureSensor&		getPressure();
 	
 	static BallCmdServer& getBall();
 	static MaxbotixUltrasonic&	getUltrasonic();
@@ -29,6 +31,7 @@ private:
 	PneumaticSubsystem s_pneumatics;
 	MecanumDrive 	   s_drive;
 	PickupSubsystem    s_pickup;
+	PressureSensor	   s_pressure;
 	
 	BallCmdServer s_ballServer;
 	
