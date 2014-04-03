@@ -1,18 +1,12 @@
 #pragma once
 
 #include "Commands/Command.h"
-#include "../Lib/Ramper.h"
 
-/**
- *
- *
- * @author ExampleAuthor
- */
-class Auto1: public Command {
+class PressureReadout : public Command {
 private:
-	Ramper r;
+	int n;
 public:
-	Auto1();
+	PressureReadout();
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

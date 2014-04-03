@@ -1,8 +1,9 @@
 #pragma once 
 #include <WPILib.h>
+#include "../Commands/PressureReadout.h"
 #include "SubsystemWithCommand.hpp"
 
-class PressureSensor : public SubsystemWithCommand<void>{
+class PressureSensor : public SubsystemWithCommand<PressureReadout> {
 public:
 	PressureSensor(int channel);
 		

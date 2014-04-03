@@ -58,17 +58,17 @@ enum Attack3JoystickPort
 
 enum JagCANAdress {
 	
-//	kBackRightJaguar = 14,
-//	kFrontRightJaguar = 12,
-//	kBackLeftJaguar = 13,
-//	kFrontLeftJaguar = 11,
-//	kPickupJaguar = 15,
+	kBackRightJaguar = 14,
+	kFrontRightJaguar = 12,
+	kBackLeftJaguar = 13,
+	kFrontLeftJaguar = 11,
+	kPickupJaguar = 15,
 	
-	kBackRightJaguar = 8,
-	kFrontRightJaguar = 6,
-	kBackLeftJaguar = 7,
-	kFrontLeftJaguar = 5,
-	kPickupJaguar = 9,
+//	kBackRightJaguar = 8,
+//	kFrontRightJaguar = 6,
+//	kBackLeftJaguar = 7,
+//	kFrontLeftJaguar = 5,
+//	kPickupJaguar = 9,
 };
 
 enum JoystickPort {

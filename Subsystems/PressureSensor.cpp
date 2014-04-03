@@ -1,7 +1,7 @@
 #include "PressureSensor.h"
 
 PressureSensor::PressureSensor(int channel): 
-	SubsystemWithCommand<void>("PressureSensor"),
+	SubsystemWithCommand<PressureReadout>("PressureSensor"),
 	PSIvolt (22.65),
 	OffsetVoltage (0.2),
 	m_PressureChannel(channel)

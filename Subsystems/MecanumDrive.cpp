@@ -202,9 +202,12 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 		m_frontRight.ChangeControlMode(CANJaguar::kPosition);
 		m_backRight.ChangeControlMode(CANJaguar::kPosition);
 		// Fetch PID gains from the smart dashboard.
-		P = SmartDashboard::GetNumber("Drive P");
-		I = SmartDashboard::GetNumber("Drive I");
-		D = SmartDashboard::GetNumber("Drive D");
+		//P = SmartDashboard::GetNumber("Drive P");
+		//I = SmartDashboard::GetNumber("Drive I");
+		//D = SmartDashboard::GetNumber("Drive D");
+		P = 220.0;
+		I = 0.01;
+		D = 0.0;
 		m_frontLeft.SetPID(-P, -I, -D);
 		m_backLeft.SetPID(-P, -I, -D);
 		m_frontRight.SetPID(-P, -I, -D);

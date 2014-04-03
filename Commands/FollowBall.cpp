@@ -11,6 +11,7 @@ FollowBall::FollowBall()
 void FollowBall::Initialize() {
 	Main::getBall().reset();
 	Main::getBall().StartFeedback();
+	printf("Following Ball...\n");
 }
 
 void FollowBall::Execute() {
