@@ -21,10 +21,10 @@ void PickupSubsystem::init() {
 void PickupSubsystem::SetIntakePosition(Position dir) {
 	switch(dir) {
 	case EXTEND:
-		m_PickupCyls.Set(Relay::kForward);
+		m_PickupCyls.Set(Relay::kReverse);
 		break;
 	case RETRACT:
-		m_PickupCyls.Set(Relay::kReverse);
+		m_PickupCyls.Set(Relay::kForward);
 		break;
 	}
 }

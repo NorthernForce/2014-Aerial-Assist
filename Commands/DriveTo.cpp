@@ -31,6 +31,9 @@ void DriveTo::Initialize() {
 	t3 = t1 + t2;
 	
 	x1 = x0 + 0.5*max_a*t1*t1;
+	
+	printf("t1:%f, t2:%f, t3:%f\n", t1, t2, t3);
+	
 	//Main::getDrive().EnableEncoders(CANJaguar::kPosition, kRevsPerFoot*xf);
 	if(initEncoders) {
 		Main::getDrive().SetDriveMode(MecanumDrive::POSITION);
@@ -58,7 +61,10 @@ void DriveTo::Execute() {
 		x = xf;
 	}
 	
+	//printf("%f\n", x*kRevsPerFoot);
+	
 	//Main::getDrive().DriveMecanum(0, -c/xf, 0);
+	//printf("%f\n", x*kRevsPerFoot);
 	Main::getDrive().Drive(0, x, 0);
 }
 

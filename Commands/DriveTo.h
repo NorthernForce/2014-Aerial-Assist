@@ -20,7 +20,7 @@ private:
 	double max_a;
 	bool initEncoders;
 public:
-	DriveTo(double x0, double xf, double max_v = kMaxDriveRPM*kRevsPerFoot/60, double max_a = 10.0, bool initEncoders = true);
+	DriveTo(double x0, double xf, double max_v = kMaxDriveRPM/(kRevsPerFoot*60)/1.5, double max_a = 10/1.5, bool initEncoders = true);
 	DriveTo(DriveTo* first, double xf, double max_v = kMaxDriveRPM*kRevsPerFoot/60, double max_a = 10.0);
 	virtual void Initialize();
 	virtual void Execute();

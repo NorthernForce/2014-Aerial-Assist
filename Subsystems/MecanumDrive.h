@@ -11,6 +11,7 @@ private:
 	CANJaguar m_frontRight;
 	CANJaguar m_backLeft;
 	CANJaguar m_backRight;
+	int n;
 public:
 	enum DriveMode {
 		PERCENT_VBUS,
