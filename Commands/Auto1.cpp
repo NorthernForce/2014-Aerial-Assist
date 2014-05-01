@@ -1,7 +1,7 @@
 #include "Auto1.h"
 #include "../Main.h"
 
-Auto1::Auto1() : r(0.0, -10.0) {
+Auto1::Auto1() : r(0.0, -10.1) {
     Requires(&Main::getPneumatics());
     Requires(&Main::getPickup());
     Requires(&Main::getDrive());
@@ -17,11 +17,12 @@ void Auto1::Execute() {
 	
 	Main::getDrive().Drive(0, r.getOutput(t), 0);
 	
-	if(t > 1.5) {
+	if(t > 1.7 && t < 4.0) {
 		Main::getPickup().SetIntakePosition(RETRACT);
-	} else if(t > 3.0) {
+	} else if(t > 4.0 && t < 4.25) {
 		Main::getPneumatics().SetShooter(true);
-	} else if(t > 4.0) {
+	} else if(t > 4.25) {
+		Main::getPickup().SetIntakeSpeed(1.0);
 		Main::getPickup().SetIntakePosition(EXTEND);
 	}
 }

@@ -3,7 +3,7 @@
 #include "../Main.h"
 
 KeepAlive::KeepAlive() {
-    Requires(&Main::getBall());
+    //Requires(&Main::getBall());
 }
 
 void KeepAlive::Initialize() {
@@ -15,7 +15,7 @@ void KeepAlive::Execute() {
 		// This will help detect if the beaglebone isn't
 		// responding, and put the subsystem into a state
 		// of waiting to accept new connections.
-		Main::getBall().StopFeedback();
+		//Main::getBall().StopFeedback();
 		n = 0;
 	}
 	++n;

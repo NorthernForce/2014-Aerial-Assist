@@ -5,18 +5,18 @@
 FollowBall::FollowBall()
 {
     Requires(&Main::getDrive());
-    Requires(&Main::getBall());
+    //Requires(&Main::getBall());
 }
 
 void FollowBall::Initialize() {
-	Main::getBall().reset();
-	Main::getBall().StartFeedback();
+	//Main::getBall().reset();
+	//Main::getBall().StartFeedback();
 	printf("Following Ball...\n");
 }
 
 void FollowBall::Execute() {
 	float x,y,w;
-	Main::getBall().getVel(&x,&y,&w);
+	//Main::getBall().getVel(&x,&y,&w);
     
     //Send joystick values to SmartDashboard
     SmartDashboard::PutNumber("Left Stick X Value: ", x); 
@@ -25,7 +25,7 @@ void FollowBall::Execute() {
     
     // Send command to drive subsystem
 	//Main::getDrive().DriveMecanum(x, y, w);
-    Main::getDrive().Drive(x, y, w);
+    //Main::getDrive().Drive(-x, y, w);
     //Main::getDrive().DriveMecanum(0,0,0);
 }
 
@@ -34,7 +34,7 @@ bool FollowBall::IsFinished() {
 }
 
 void FollowBall::End() {
-	Main::getBall().StopFeedback();
+	//Main::getBall().StopFeedback();
 }
 
 void FollowBall::Interrupted() {

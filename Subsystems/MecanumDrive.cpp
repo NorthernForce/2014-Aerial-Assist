@@ -2,22 +2,28 @@
 #include "Joystick.h"
 #include <math.h>
 
-MecanumDrive::MecanumDrive() :
+MecanumDrive::MecanumDrive(CANJaguar& m_frontLeft, CANJaguar& m_backLeft, CANJaguar& m_frontRight, CANJaguar& m_backRight) :
 	SubsystemWithCommand<DriveWithJoystick>("MecanumDrive"),
 	RobotDrive(m_frontLeft, m_backLeft, m_frontRight, m_backRight),
+	/*
 	m_frontLeft(kFrontLeftJaguar),
 	m_frontRight(kFrontRightJaguar),
 	m_backLeft(kBackLeftJaguar),
 	m_backRight(kBackRightJaguar),
+	*/
 	flipped(false),
 	majorAxisOnly(false)
-{}
+{
+}
 
 void MecanumDrive::Init() {
 	SetExpiration(0.25);
+	m_safetyHelper->Feed();
 }
 
 void MecanumDrive::Drive(double x, double y, double w) {
+
+	m_safetyHelper->Feed();
 	if(flipped) {
 		x = -x;
 		y = -y;
@@ -53,7 +59,6 @@ void MecanumDrive::Drive(double x, double y, double w) {
 
 		CANJaguar::UpdateSyncGroup(syncGroup);
 			
-		m_safetyHelper->Feed();
 		break;
 	default:
 		break;
@@ -62,6 +67,7 @@ void MecanumDrive::Drive(double x, double y, double w) {
 	n++;
 	if(n%5 == 0) 
 	{
+		/*
 		SmartDashboard::PutNumber("M4 Command", m_frontLeft.Get());
 		SmartDashboard::PutNumber("M4 Output",  m_frontLeft.GetPosition());
 		//SmartDashboard::PutNumber("M4 Voltage", m_frontLeft.GetOutputVoltage());
@@ -85,7 +91,7 @@ void MecanumDrive::Drive(double x, double y, double w) {
 		//SmartDashboard::PutNumber("M1 Voltage", m_backRight.GetOutputVoltage());
 		//SmartDashboard::PutNumber("M1 VBus", m_backRight.GetBusVoltage());
 		//SmartDashboard::PutBoolean("M1 Alive",  backRight_alive == 0);
-		
+		*/
 		/*
 		SmartDashboard::PutNumber("M1 Pos", m_backRight.GetPosition());
 		SmartDashboard::PutNumber("M2 Pos", m_frontRight.GetPosition());
@@ -108,15 +114,15 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 		// max output should be 1.0
 		SetMaxOutput(1.0);
 		// Disable encoder control.
-		m_frontLeft.DisableControl();
-		m_backLeft.DisableControl();
-		m_frontRight.DisableControl();
-		m_backRight.DisableControl();
+		((CANJaguar*)m_frontLeftMotor)->DisableControl();
+		((CANJaguar*)m_rearLeftMotor)->DisableControl();
+		((CANJaguar*)m_frontRightMotor)->DisableControl();
+		((CANJaguar*)m_rearRightMotor)->DisableControl();
 		// Change mode to kPercentVbus.
-		m_frontLeft.ChangeControlMode(CANJaguar::kPercentVbus);
-		m_backLeft.ChangeControlMode(CANJaguar::kPercentVbus);
-		m_frontRight.ChangeControlMode(CANJaguar::kPercentVbus);
-		m_backRight.ChangeControlMode(CANJaguar::kPercentVbus);
+		((CANJaguar*)m_frontLeftMotor)->ChangeControlMode(CANJaguar::kPercentVbus);
+		((CANJaguar*)m_rearLeftMotor)->ChangeControlMode(CANJaguar::kPercentVbus);
+		((CANJaguar*)m_frontRightMotor)->ChangeControlMode(CANJaguar::kPercentVbus);
+		((CANJaguar*)m_rearRightMotor)->ChangeControlMode(CANJaguar::kPercentVbus);
 		break;
 	case SPEED:
 		// When encoders are enabled, all motors must be inverted from
@@ -130,48 +136,48 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 		
 		// Disable encoders, if alread enabled.
 		// Not sure this is necessary.
-		m_frontLeft.DisableControl();
-		m_backLeft.DisableControl();
-		m_frontRight.DisableControl();
-		m_backRight.DisableControl();
+		((CANJaguar*)m_frontLeftMotor)->DisableControl();
+		((CANJaguar*)m_rearLeftMotor)->DisableControl();
+		((CANJaguar*)m_frontRightMotor)->DisableControl();
+		((CANJaguar*)m_rearRightMotor)->DisableControl();
 				
 		// Max voltage should be 12V (Robot has 12V battery).
-		m_frontLeft.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_backLeft.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_frontRight.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_backRight.ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_frontLeftMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_rearLeftMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_frontRightMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_rearRightMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
 				
 		// To use the encoders, we need to be in either
 		// speed mode or position mode. For driving the 
 		// robot, speed mode makes more sense.
-		m_frontLeft.ChangeControlMode(CANJaguar::kSpeed);
-		m_backLeft.ChangeControlMode(CANJaguar::kSpeed);
-		m_frontRight.ChangeControlMode(CANJaguar::kSpeed);
-		m_backRight.ChangeControlMode(CANJaguar::kSpeed);
+		((CANJaguar*)m_frontLeftMotor)->ChangeControlMode(CANJaguar::kSpeed);
+		((CANJaguar*)m_rearLeftMotor)->ChangeControlMode(CANJaguar::kSpeed);
+		((CANJaguar*)m_frontRightMotor)->ChangeControlMode(CANJaguar::kSpeed);
+		((CANJaguar*)m_rearRightMotor)->ChangeControlMode(CANJaguar::kSpeed);
 		// Fetch PID gains from the smart dashboard.
 		P = 0.5;
 		I = 0.01;
 		D = 0.0;
-		m_frontLeft.SetPID(-P, -I, -D);
-		m_backLeft.SetPID(-P, -I, -D);
-		m_frontRight.SetPID(-P, -I, -D);
-		m_backRight.SetPID(-P, -I, -D);
+		((CANJaguar*)m_frontLeftMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_rearLeftMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_frontRightMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_rearRightMotor)->SetPID(-P, -I, -D);
 				
-		m_frontLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-		m_backLeft.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-		m_frontRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
-		m_backRight.SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		((CANJaguar*)m_frontLeftMotor)->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		((CANJaguar*)m_rearLeftMotor)->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		((CANJaguar*)m_frontRightMotor)->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
+		((CANJaguar*)m_rearRightMotor)->SetSpeedReference(CANJaguar::kSpeedRef_QuadEncoder);
 					
 		// Set encoder pulses per rev
-		m_frontLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_backLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_frontRight.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_backRight.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_frontLeftMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_rearLeftMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_frontRightMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_rearRightMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
 		// Enable encoder control with the parameters above.
-		m_frontLeft.EnableControl();
-		m_backLeft.EnableControl();
-		m_frontRight.EnableControl();
-		m_backRight.EnableControl();
+		((CANJaguar*)m_frontLeftMotor)->EnableControl();
+		((CANJaguar*)m_rearLeftMotor)->EnableControl();
+		((CANJaguar*)m_frontRightMotor)->EnableControl();
+		((CANJaguar*)m_rearRightMotor)->EnableControl();
 		break;
 	case POSITION:
 		// When encoders are enabled, all motors must be inverted from
@@ -183,24 +189,24 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 			
 		// Disable encoders, if alread enabled.
 		// Not sure this is necessary.
-		m_frontLeft.DisableControl();
-		m_backLeft.DisableControl();
-		m_frontRight.DisableControl();
-		m_backRight.DisableControl();
+		((CANJaguar*)m_frontLeftMotor)->DisableControl();
+		((CANJaguar*)m_rearLeftMotor)->DisableControl();
+		((CANJaguar*)m_frontRightMotor)->DisableControl();
+		((CANJaguar*)m_rearRightMotor)->DisableControl();
 			
 		// Max voltage should be 12V (Robot has 12V battery).
-		m_frontLeft.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_backLeft.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_frontRight.ConfigMaxOutputVoltage(kMaxDriveVoltage);
-		m_backRight.ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_frontLeftMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_rearLeftMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_frontRightMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
+		((CANJaguar*)m_rearRightMotor)->ConfigMaxOutputVoltage(kMaxDriveVoltage);
 		
 		// To use the encoders, we need to be in either
 		// speed mode or position mode. For driving the 
 		// robot, speed mode makes more sense.
-		m_frontLeft.ChangeControlMode(CANJaguar::kPosition);
-		m_backLeft.ChangeControlMode(CANJaguar::kPosition);
-		m_frontRight.ChangeControlMode(CANJaguar::kPosition);
-		m_backRight.ChangeControlMode(CANJaguar::kPosition);
+		((CANJaguar*)m_frontLeftMotor)->ChangeControlMode(CANJaguar::kPosition);
+		((CANJaguar*)m_rearLeftMotor)->ChangeControlMode(CANJaguar::kPosition);
+		((CANJaguar*)m_frontRightMotor)->ChangeControlMode(CANJaguar::kPosition);
+		((CANJaguar*)m_rearRightMotor)->ChangeControlMode(CANJaguar::kPosition);
 		// Fetch PID gains from the smart dashboard.
 		//P = SmartDashboard::GetNumber("Drive P");
 		//I = SmartDashboard::GetNumber("Drive I");
@@ -208,26 +214,26 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 		P = 220.0;
 		I = 0.01;
 		D = 0.0;
-		m_frontLeft.SetPID(-P, -I, -D);
-		m_backLeft.SetPID(-P, -I, -D);
-		m_frontRight.SetPID(-P, -I, -D);
-		m_backRight.SetPID(-P, -I, -D);
+		((CANJaguar*)m_frontLeftMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_rearLeftMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_frontRightMotor)->SetPID(-P, -I, -D);
+		((CANJaguar*)m_rearRightMotor)->SetPID(-P, -I, -D);
 		
-		m_frontLeft.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-		m_backLeft.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-		m_frontRight.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
-		m_backRight.SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		((CANJaguar*)m_frontLeftMotor)->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		((CANJaguar*)m_rearLeftMotor)->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		((CANJaguar*)m_frontRightMotor)->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
+		((CANJaguar*)m_rearRightMotor)->SetPositionReference(CANJaguar::kPosRef_QuadEncoder);
 			
 		// Set encoder pulses per rev
-		m_frontLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_backLeft.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_frontRight.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
-		m_backRight.ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_frontLeftMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_rearLeftMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_frontRightMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
+		((CANJaguar*)m_rearRightMotor)->ConfigEncoderCodesPerRev(kEncoderPulsesPerRev);
 		// Enable encoder control with the parameters above.
-		m_frontLeft.EnableControl();
-		m_backLeft.EnableControl();
-		m_frontRight.EnableControl();
-		m_backRight.EnableControl();
+		((CANJaguar*)m_frontLeftMotor)->EnableControl();
+		((CANJaguar*)m_rearLeftMotor)->EnableControl();
+		((CANJaguar*)m_frontRightMotor)->EnableControl();
+		((CANJaguar*)m_rearRightMotor)->EnableControl();
 			
 		break;
 	default:
@@ -240,3 +246,17 @@ void MecanumDrive::SetDriveMode(DriveMode mode) {
 void MecanumDrive::SetSafetyEnabled(bool enabled) { RobotDrive::SetSafetyEnabled(enabled); }
 void MecanumDrive::Flip() { flipped = !flipped; }
 void MecanumDrive::SetMajorAxisMode(bool on) { majorAxisOnly = on; }
+
+double MecanumDrive::GetYVel() {
+	switch(m_driveMode) {
+	case SPEED:
+	case POSITION:
+		return (((CANJaguar*)m_frontLeftMotor)->GetSpeed() - ((CANJaguar*)m_frontRightMotor)->GetSpeed() + ((CANJaguar*)m_rearLeftMotor)->GetSpeed() - ((CANJaguar*)m_rearRightMotor)->GetSpeed()) / 4.0 / kMaxDriveRPM;
+	default:
+		return (-((CANJaguar*)m_frontLeftMotor)->GetOutputVoltage() + ((CANJaguar*)m_frontRightMotor)->GetOutputVoltage() - ((CANJaguar*)m_rearLeftMotor)->GetOutputVoltage() + ((CANJaguar*)m_rearRightMotor)->GetOutputVoltage()) / 4.0 / kMaxDriveVoltage;
+	}
+}
+
+void MecanumDrive::Feed() {
+	m_safetyHelper->Feed();
+}

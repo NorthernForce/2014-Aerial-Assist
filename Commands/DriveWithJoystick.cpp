@@ -7,6 +7,7 @@ DriveWithJoystick::DriveWithJoystick() {
 }
 
 void DriveWithJoystick::Initialize() {
+	Main::getDrive().SetDriveMode(MecanumDrive::SPEED);
 }
 
 // Called repeatedly when this Command is scheduled to run
