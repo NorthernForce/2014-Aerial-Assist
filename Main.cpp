@@ -1,6 +1,7 @@
 #include "Main.h"
 #include "Commands/DriveTo.h"
 #include "Commands/Auto1.h"
+#include "Commands/AutomaticAuto.h"
 
 //static bool done = false;
 
@@ -64,7 +65,8 @@ void Main::RobotInit() {
 	s_pickup.init();
 	//s_ballServer.init();
 	//autocmd = new DriveTo(0.0, 10.0);// Auto();
-    autocmd = new Auto1();
+    //autocmd = new Auto1();
+	autocmd = new AutomaticAuto();
 	//lw = LiveWindow::GetInstance();
 }
 	
