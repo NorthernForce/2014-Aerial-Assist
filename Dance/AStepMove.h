@@ -1,15 +1,19 @@
-#include "Dance/ADanceMove.h"
+#pragma once
+
+#include "ADanceMove.h"
 
 
-class AStepMove: ADanceMove
+class AStepMove: public ADanceMove
 {
 	public: 
-		void AStepMove(double x, double y, double w, float duration) : 
-			m_x(x), m_y(y), m_w(w), m_duration(duration) {}
+		AStepMove(double x, double y, double w, float duration) : 
+			ADanceMove(duration), m_x(x), m_y(y), m_w(w) {}
 		
-		virtual void Execute()
+		virtual ~AStepMove() {}
+		
+		virtual void Execute() const
 		{
-			Main::getDrive().DriveMecanum(m_x, m_y, m_w);
+			Main::getDrive().Drive(m_x, m_y, m_w);
 		}
 	
 	protected:

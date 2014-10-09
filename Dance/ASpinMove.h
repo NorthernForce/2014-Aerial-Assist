@@ -1,12 +1,18 @@
-#include "Dance/AStepMove.h"
+#pragma once
+
+#include "AStepMove.h"
 
 
 class ASpinMove: public AStepMove
 {
+	public:
+	    ASpinMove(float duration) : AStepMove(0,0,1,duration) {}
+		virtual ~ASpinMove() {}
+		
 	public: 
-		virtual void Execute()
+		virtual void Execute() const
 		{	
-			//set x, y, w to proper values for spinning
+			// Use the x, y, w set in the constructor for spinning
 			AStepMove::Execute();
 		}
 		

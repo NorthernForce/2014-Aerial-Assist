@@ -1,21 +1,24 @@
-#include "Dance/ADanceMove.h"
+#pragma once
+
+#include "ADanceMove.h"
 
 
 class ABowMove: ADanceMove
 {
 	public:
-		void ABowMove(float duration) :
-			m_duration(duration){}
+		ABowMove(float duration) :
+			ADanceMove(duration){}
+		virtual ~ABowMove() {}
 		
-		virtual void Execute()
+		virtual void Execute() const
 		{
 			Main::getPickup().SetIntakePosition(EXTEND);
-			while (m_duration > 0 )
+			float duration = m_duration;
+			while (duration > 0 )
 			{
 				sleep(1);
-				--m_duration;
+				--duration;
 			}
-			Main::getPickup().SetIntakePostion(RETRACT);
+			Main::getPickup().SetIntakePosition(RETRACT);
 		}
-			
 };

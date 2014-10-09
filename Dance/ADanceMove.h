@@ -1,9 +1,12 @@
+#pragma once
+
 #include "../main.h"
 
 class ADanceMove
 {
 	public:
-		virtual void Execute() = 0;
+		ADanceMove(float duration) : m_duration(duration) {}
+		virtual void Execute() const = 0;
 		virtual void Sync() 
 		{
 			// To be later implemented, most likely a socket interface. 
@@ -21,6 +24,4 @@ struct AMoveRunner
 		move.Execute();
 	}
 };
-
-
 

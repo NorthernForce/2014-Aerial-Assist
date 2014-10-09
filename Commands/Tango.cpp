@@ -1,6 +1,10 @@
 #include "tango.h"
 #include "../Main.h"
+
 #include <algorithm>
+#include "../Dance/ABowMove.h"
+#include "../Dance/ASpinMove.h"
+#include "../Dance/AStepMove.h"
 
 Tango::Tango()
 {
@@ -12,6 +16,9 @@ Tango::Tango()
 void Tango::Initialize() 
 {
 	Main::getDrive().SetDriveMode(MecanumDrive::SPEED);	
+	
+	// We initialize the dance steps here
+	m_tangoMoves.push_back(AStepMove(10, 1, 0, 3));
 }
 
 void Tango::Execute() 
@@ -25,7 +32,7 @@ void Tango::Execute()
 */
 
 	
-	std::for_each();
+	std::for_each(m_tangoMoves.begin(), m_tangoMoves.end(), AMoveRunner());
 }
 
 bool Tango::IsFinished() 
