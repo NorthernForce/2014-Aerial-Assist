@@ -3,6 +3,7 @@
 #include "Commands/Command.h"
 #include "../Dance/ADanceMove.h"
 #include <vector>
+#include "boost/shared_ptr.hpp"
 
 /**
  *
@@ -11,6 +12,8 @@
  */
 class Tango: public Command 
 {
+	typedef boost::shared_ptr<ADanceMove> AMovePtr;
+	
 	public:
 		Tango();
 		virtual void Initialize();
@@ -20,5 +23,5 @@ class Tango: public Command
 		virtual void Interrupted();
 
 	private:
-		std::vector<ADanceMove> m_tangoMoves;
+		std::vector<AMovePtr> m_tangoMoves;
 };

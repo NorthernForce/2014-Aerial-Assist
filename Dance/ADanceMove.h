@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../main.h"
+#include <functional>
+#include <stddef.h>
+#include "boost/shared_ptr.hpp"
 
 class ADanceMove
 {
@@ -19,9 +22,12 @@ class ADanceMove
 
 struct AMoveRunner
 {
-	void operator()(const ADanceMove& move) const
+	void operator()(const boost::shared_ptr<ADanceMove>& move) const
 	{
-		move.Execute();
+		move->Execute();
+		++AMoveRunner::s_executionCount;
 	}
+	static std::size_t s_executionCount; 
 };
 
+std::size_t AMoveRunner::s_executionCount = 0; 

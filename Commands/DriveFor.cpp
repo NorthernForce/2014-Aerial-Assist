@@ -1,18 +1,18 @@
 #include "DriveFor.h"
 #include "../Main.h"
 
-DriveFor::DriveFor(double speed, double time) : speed(speed), time(time) {
+DriveFor::DriveFor(double speed, double time) : m_speed(speed), m_time(time) {
 	Requires(&Main::getDrive());
 }
 
 void DriveFor::Initialize() {}
 
 void DriveFor::Execute() {
-	Main::getDrive().Drive(0, speed, 0);
+	Main::getDrive().Drive(0, m_speed, 0);
 }
 
 bool DriveFor::IsFinished() {
-	return TimeSinceInitialized() > time;
+	return TimeSinceInitialized() > m_time;
 }
 
 void DriveFor::End() {

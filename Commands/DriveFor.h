@@ -3,8 +3,8 @@
 
 class DriveFor : public Command {
 private:
-	double speed;
-	double time;
+	double m_speed;
+	double m_time;
 public:
 	DriveFor(double speed, double time);
 	void Initialize();
