@@ -3,7 +3,7 @@
 #include "ADanceMove.h"
 
 
-class ABowMove: ADanceMove
+class ABowMove: public ADanceMove
 {
 	public:
 		ABowMove(float duration) :

@@ -27,7 +27,78 @@ void Tango::Initialize()
 	// track of reference counts on the contained pointer and
 	// when the reference count gets to zero delete is called on 
 	// the contained pointer...we're almost C++ 11...
-	m_tangoMoves.push_back(AMovePtr(new AStepMove(10, 1, 0, 3)));
+	
+	//First Bow
+	m_tangoMoves.push_back(AMovePtr(new ABowMove(1.0))); 
+	
+	// First Block (up, right)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, 1.0)));
+	
+	// Second Block (up, left)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, .5, 1.0)));
+	
+	// Third Block (right, down)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, 1.0)));
+	
+	// Fourth Block (right, up)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, 1.0)));
+	
+	// Fifth Blcok (down, left)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, 1.0)));
+	
+	// Sixth Block (down, right)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, 1.0)));
+	
+	// Seventh Block (left, up)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, 1.0)));
+	
+	// Eighth Block (left, down)
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 0.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(0.0, -1.0, .5, 1.0)));
+	
+	// Ninth Block (spin) 
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new ASpinMove(2.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 1.0, 1.0, 1.0)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(-1.0, 1.0, .5, .5)));
+	m_tangoMoves.push_back(AMovePtr(new AStepMove(1.0, 1.0, .5, .5)));
+
+	// Final Bow
+	m_tangoMoves.push_back(AMovePtr(new ABowMove(1.0))); 
 }
 
 void Tango::Execute() 
