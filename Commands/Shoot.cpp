@@ -36,4 +36,5 @@ void Shoot::End() {
 }
 
 void Shoot::Interrupted() {
+	End();
 }

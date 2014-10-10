@@ -13,6 +13,7 @@
 class Main : public IterativeRobot {
 public:
 	Main();
+	virtual ~Main();
 	
 	static Main& 				getRobot();
 	static PneumaticSubsystem& 	getPneumatics();
@@ -21,18 +22,23 @@ public:
 	static PickupSubsystem&     getPickup();
 	static PressureSensor&		getPressure();
 	
-	static BallCmdServer& getBall();
+	//static BallCmdServer& getBall();
 	static MaxbotixUltrasonic&	getUltrasonic();
 	
 private:
 	LiveWindow *lw;
 	Command* autocmd;
 	PneumaticSubsystem s_pneumatics;
+	
+	CANJaguar m_frontLeft;
+	CANJaguar m_frontRight;
+	CANJaguar m_backLeft;
+	CANJaguar m_backRight;
 	MecanumDrive 	   s_drive;
 	PickupSubsystem    s_pickup;
 	PressureSensor	   s_pressure;
 	
-	BallCmdServer s_ballServer;
+	//BallCmdServer s_ballServer;
 	
 	MaxbotixUltrasonic s_ultrasonic;
 	OI				   oi;

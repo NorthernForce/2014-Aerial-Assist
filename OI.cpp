@@ -3,6 +3,7 @@
 #include "Commands/SetDriveMode.hpp"
 #include "Commands/SetIntake.hpp"
 #include "Commands/FollowBall.h"
+#include "Commands/ShootAtDistance.h"
 
 OI::OI() : m_DriverStick(kDriverStickPort), m_ManipulatorStick(kManipulatorStickPort) {
 }
@@ -27,6 +28,8 @@ void OI::init() {
     m_ManipulatorStick.Button4.WhenPressed<SetIntake<EXTENDED | FORWARD> >();
     m_ManipulatorStick.Button5.WhenPressed<SetIntake<RETRACTED | STOPPED> >();
     m_ManipulatorStick.Button3.WhileHeld<SetIntake<REVERSE> >();
+    m_ManipulatorStick.Button8.WhileHeld<ShootAtDistance>();
+    m_ManipulatorStick.Button6.WhenPressed<SetIntake<STOPPED> >();
 }
 
 FRCXboxJoystick& OI::GetDriverStick() {
