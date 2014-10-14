@@ -14,11 +14,7 @@ class ABowMove: public ADanceMove
 		{
 			Main::getPickup().SetIntakePosition(EXTEND);
 			float duration = m_duration;
-			while (duration > 0 )
-			{
-				sleep(1);
-				--duration;
-			}
+			sleep(m_duration);
 			Main::getPickup().SetIntakePosition(RETRACT);
 		}
 };

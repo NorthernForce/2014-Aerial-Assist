@@ -26,6 +26,7 @@
             </listAttribute>
             <listAttribute key="BLD::Info|Incl|PPC603gnu">
                 <stringAttribute value="-I$(WIND_BASE)/target/h"/>
+                <stringAttribute value="-IC:/Users/Richlap/Desktop/Robotics/source/2014-Aerial-Assist/vendor/boost_1_56"/>
                 <stringAttribute value="-I$(WIND_BASE)/target/h/WPILib"/>
                 <stringAttribute value="-I$(WIND_BASE)/target/h/wrn/coreip"/>
             </listAttribute>
@@ -244,14 +245,14 @@
         </mapAttribute>
     </attributes>
     <buildtargets>
-        <buildtarget buildtool="Linker" name="2014-Aerial-Assist" passed="false" targetname="2014-Aerial-Assist">
+        <buildtarget buildtool="Linker" name="2014-Aerial-Current" passed="false" targetname="2014-Aerial-Assist-Current">
             <contents>
-                <buildtargetreference name="/2014-Aerial-Assist/2014-Aerial-Assist_partialImage"/>
+                <buildtargetreference name="/2014-Aerial-Assist-Current/2014-Aerial-Assist-Current_partialImage"/>
             </contents>
         </buildtarget>
-        <buildtarget buildtool="Partial Image Linker" name="2014-Aerial-Assist_partialImage" passed="true" targetname="2014-Aerial-Assist_partialImage">
+        <buildtarget buildtool="Partial Image Linker" name="2014-Aerial-Assist-Current_partialImage" passed="true" targetname="2014-Aerial-Assist-Current_partialImage">
             <contents>
-                <folder name="/2014-Aerial-Assist" recursive="true"/>
+                <folder name="/2014-Aerial-Assist-Current" recursive="true"/>
             </contents>
         </buildtarget>
     </buildtargets>

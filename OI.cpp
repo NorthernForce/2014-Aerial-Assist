@@ -4,6 +4,7 @@
 #include "Commands/SetIntake.hpp"
 #include "Commands/FollowBall.h"
 #include "Commands/ShootAtDistance.h"
+#include "Commands/Tango.h"
 
 OI::OI() : m_DriverStick(kDriverStickPort), m_ManipulatorStick(kManipulatorStickPort) {
 }
@@ -18,8 +19,7 @@ void OI::init() {
     m_DriverStick.X.WhenPressed<SetDriveMode<SWAP_SIDES> >();
     m_DriverStick.B.WhileHeld<SetIntake<EXTENDED | FORWARD> >();
     m_DriverStick.Back.WhileHeld<SetIntake<REVERSE> >();
-    m_DriverStick.Start.WhileHeld<FollowBall>();
-    m_DriverStick.Y.WhenPressed<FollowBall>();
+    m_DriverStick.Y.WhenPressed<Tango>();
     
     m_ManipulatorStick.Trigger.WhenPressed<Shoot>();
     m_ManipulatorStick.Button2.WhileHeld<SetIntake<EXTENDED | FORWARD> >();

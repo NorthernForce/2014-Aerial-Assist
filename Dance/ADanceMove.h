@@ -30,4 +30,3 @@ struct AMoveRunner
 	static std::size_t s_executionCount; 
 };
 
-std::size_t AMoveRunner::s_executionCount = 0; 
