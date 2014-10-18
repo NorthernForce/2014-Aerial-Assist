@@ -6,8 +6,8 @@
 class AStepMove: public ADanceMove
 {
 	public: 
-		AStepMove(double x, double y, double w, float duration) : 
-			ADanceMove(duration), m_x(x), m_y(y), m_w(w) {}
+		AStepMove(double x, double y, double w, int waitBeats) : 
+			ADanceMove(waitBeats), m_x(x), m_y(y), m_w(w) {}
 		
 		virtual ~AStepMove() {}
 		

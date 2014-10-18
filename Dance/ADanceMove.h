@@ -5,10 +5,16 @@
 #include <stddef.h>
 #include "boost/shared_ptr.hpp"
 
+
 class ADanceMove
 {
 	public:
-		ADanceMove(float duration) : m_duration(duration) {}
+		ADanceMove(int waitBeats) : m_waitBeats(waitBeats)
+			{}
+		int GetWaitBeats()
+		{
+			return m_waitBeats;
+		}
 		virtual void Execute() const = 0;
 		virtual void Sync() 
 		{
@@ -16,17 +22,18 @@ class ADanceMove
 		}
 		
 	protected:
-		float m_duration; 
+		int m_waitBeats;
 };
 
 
-struct AMoveRunner
+class Tango;
+
+struct AMoveRunner 
 {
-	void operator()(const boost::shared_ptr<ADanceMove>& move) const
-	{
-		move->Execute();
-		++AMoveRunner::s_executionCount;
-	}
+	AMoveRunner(Tango*);
+	
+	void operator()(const boost::shared_ptr<ADanceMove>& move) const;
 	static std::size_t s_executionCount; 
+	Tango* m_tangoInstance;
 };
 

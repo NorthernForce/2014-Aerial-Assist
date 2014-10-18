@@ -6,15 +6,14 @@
 class ABowMove: public ADanceMove
 {
 	public:
-		ABowMove(float duration) :
-			ADanceMove(duration){}
+		ABowMove(int waitBeats) :
+			ADanceMove(waitBeats){}
 		virtual ~ABowMove() {}
 		
 		virtual void Execute() const
 		{
 			Main::getPickup().SetIntakePosition(EXTEND);
-			float duration = m_duration;
-			sleep(m_duration);
+			
 			Main::getPickup().SetIntakePosition(RETRACT);
 		}
 };

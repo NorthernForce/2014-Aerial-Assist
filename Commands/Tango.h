@@ -16,12 +16,14 @@ class Tango: public Command
 	
 	public:
 		Tango();
+		Tango(const Tango& other);
 		virtual void Initialize();
 		virtual void Execute();
 		virtual bool IsFinished();
 		virtual void End();
 		virtual void Interrupted();
-
+        
+		
 	private:
 		std::vector<AMovePtr> m_tangoMoves;
 };

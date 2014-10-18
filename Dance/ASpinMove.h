@@ -6,7 +6,7 @@
 class ASpinMove: public AStepMove
 {
 	public:
-	    ASpinMove(float duration) : AStepMove(0,0,1,duration) {}
+	    ASpinMove(int waitBeats) : AStepMove(0,0,1, waitBeats) {}
 		virtual ~ASpinMove() {}
 		
 	public: 
